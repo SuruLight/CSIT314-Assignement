@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Logout</title>
+</head>
+<body>
+
+<h2>Admin Logout</h2>
+
+<button onclick="logout()">Logout</button>
+
+<p id="result"></p>
+
+<script>
+function logout() {
+
+    localStorage.clear();
+    sessionStorage.clear();
+
+    
+    displayMessage("Logged out successfully");
+
+    
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 1000);
+
+}
+
+function displayMessage(result) {
+    document.getElementById("result").innerText = result.message;
+}
+</script>
+
+</body>
+</html>
+
