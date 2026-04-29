@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.FRA.login_system.repository.UserRepository;
+import com.FRA.login_system.service.LoginService;
 
 @RestController
 @RequestMapping("/api")
@@ -17,27 +16,15 @@ import com.FRA.login_system.repository.UserRepository;
 public class LoginController {
 
     @Autowired
-    private UserRepository userRepository;
+    private LoginService loginService; // Now using Service instead of Repository
 
     @PostMapping("/login")
     public Map<String, Object> validateLogin(@RequestBody Map<String, String> request) {
-
-        String username = request.get("username");
-        String password = request.get("password");
-
-        UserAdmin user = userRepository.findByUsernameAndPassword(username, password);
-
-        boolean loginStatus = (user != null);
-
+        boolean success = loginService.authenticate(request.get("username"), request.get("password"));
+        
         Map<String, Object> response = new HashMap<>();
-        response.put("success", loginStatus);
-
-        if (loginStatus) {
-            response.put("message", "Login successful");
-        } else {
-            response.put("message", "Invalid credentials");
-        }
-
+        response.put("success", success);
+        response.put("message", success ? "Login successful" : "Invalid credentials");
         return response;
     }
 }
