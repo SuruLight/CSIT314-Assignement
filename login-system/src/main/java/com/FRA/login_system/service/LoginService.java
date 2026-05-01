@@ -1,9 +1,10 @@
 package com.FRA.login_system.service;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.FRA.login_system.entity.User;
 import com.FRA.login_system.repository.UserRepository;
-import com.FRA.login_system.UserAdmin;
 
 @Service
 public class LoginService {
@@ -12,7 +13,7 @@ public class LoginService {
 
     public boolean authenticate(String username, String password) {
         // Business logic: "Check credentials"
-        UserAdmin user = userRepository.findByUsernameAndPassword(username, password);
+        User user = userRepository.findByUsernameAndPassword(username, password);
         return user != null;
     }
 }

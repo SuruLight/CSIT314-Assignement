@@ -1,4 +1,6 @@
-package com.FRA.login_system;
+package com.FRA.login_system.entity;
+
+import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +10,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserAdmin {
+@Component // 👈 makes Spring manage this class
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +20,9 @@ public class UserAdmin {
     private String username;
     private String password;
 
-    public UserAdmin() {}
+    public User() {}
 
-    public UserAdmin(String username, String password) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }

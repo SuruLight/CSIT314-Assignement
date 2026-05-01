@@ -1,4 +1,4 @@
-package com.FRA.login_system;
+package com.FRA.login_system.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,5 +9,4 @@ public class LogoutController {
     public String requestLogout() {
         return "Logged out successfully";
     }
-    
 }
