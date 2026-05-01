@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search User Account</title>
+</head>
+<body>
+
+<h2>Search User Account</h2>
+
+<input type="text" id="keyword" placeholder="Enter username or name">
+<button onclick="searchUser()">Search</button>
+
+<br><br>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody id="results"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function searchUser() {
+    const keyword = document.getElementById("keyword").value;
+
+    fetch("http://localhost:8080/api/admin/users/search?keyword=" + keyword)
+    .then(response => response.json())
+    .then(data => {
+        const table = document.getElementById("results");
+        table.innerHTML = "";
+
+        data.forEach(user => {
+            table.innerHTML += `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.role}</td>
+                    <td>${user.fullName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone}</td>
+                </tr>
+            `;
+        });
+    });
+}
+
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
