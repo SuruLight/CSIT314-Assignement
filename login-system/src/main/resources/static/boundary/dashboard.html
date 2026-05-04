@@ -16,6 +16,7 @@
 <button onclick="goToSearchUser()">Search User Accounts</button>
 <button onclick="goToSuspendUser()">Suspend User Account</button>
 <button onclick="goToUpdateUser()">Update User Account</button>
+<button onclick="goToViewUser()">View User Account</button>
 <br><br>
 
 <button onclick="logout()">Logout</button>
@@ -47,8 +48,14 @@ function logout() {
     window.location.href = "login.html";
 }
 
+// Go to update user page
 function goToUpdateUser() {
     window.location.href = "update-user-account.html";
+}
+
+// Go to view user page
+function goToViewUser() {
+    window.location.href = "view-user-account.html";
 }
 </script>
 
