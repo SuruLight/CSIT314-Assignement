@@ -9,16 +9,17 @@ import com.FRA.login_system.entity.User;
 import com.FRA.login_system.repository.UserRepository;
 
 @Service
-public class SearchUserService {
+public class SearchUserProfileService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> searchUser(String keyword) {
-        return userRepository.findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
-            keyword,
-            keyword,
-            keyword
-        );
+    public List<User> searchUser(String criteria) {
+        return userRepository
+            .findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                criteria,
+                criteria,
+                criteria
+            );
     }
 }

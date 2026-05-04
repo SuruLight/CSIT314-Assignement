@@ -8,10 +8,12 @@ import com.FRA.login_system.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsernameAndPassword(String username, String password);
+    
     User findByUsername(String username);
 
-    List<User> findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCase(
+    List<User> findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
         String username,
-        String fullName
+        String fullName,
+        String email
     );
 }
