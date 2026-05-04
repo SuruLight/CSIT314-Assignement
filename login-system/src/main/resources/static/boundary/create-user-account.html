@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create User Account</title>
+</head>
+<body>
+
+<h2>Create User Account</h2>
+
+<input type="text" id="userName" placeholder="Username"><br>
+<input type="password" id="password" placeholder="Password"><br>
+<input type="email" id="email" placeholder="Email"><br>
+
+<select id="role">
+    <option value="USER_ADMIN">USER_ADMIN</option>
+    <option value="FR">FR</option>
+    <option value="DONEE">DONEE</option>
+    <option value="PLATFORM_MANAGEMENT">PLATFORM_MANAGEMENT</option>
+</select>
+
+<p><b>Select Permissions:</b></p>
+
+<label><input type="checkbox" value="SEARCH_USER"> Search User</label><br>
+<label><input type="checkbox" value="VIEW_USER"> View User</label><br>
+<label><input type="checkbox" value="SUSPEND_USER"> Suspend User</label><br>
+<label><input type="checkbox" value="UPDATE_USER"> Update User</label><br>
+<label><input type="checkbox" value="CREATE_USER"> Create User</label><br>
+
+<button onclick="enterUserDetails()">Create User</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function enterUserDetails() {
+    const userName = document.getElementById("userName").value;
+    const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+    const role = document.getElementById("role").value;
+
+    const selectedPermissions = document.querySelectorAll('input[type="checkbox"]:checked');
+    let permissions = [];
+
+    selectedPermissions.forEach(p => {
+        permissions.push(p.value);
+    });
+
+    permissions = permissions.join(",");
+
+    fetch("http://localhost:8080/api/admin/users/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userName: userName,
+            password: password,
+            email: email,
+            role: role,
+            permissions: permissions
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        displayMessage(result);
+    });
+}
+
+function displayMessage(result) {
+    if (result === true) {
+        document.getElementById("result").innerText =
+            "User account created successfully.";
+    } else {
+        document.getElementById("result").innerText =
+            "Failed to create user account. Username may already exist.";
+    }
+}
+
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
