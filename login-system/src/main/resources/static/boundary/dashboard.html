@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<p id="welcomeMsg"></p>
+
+<hr>
+
+<h3>Functions</h3>
+
+<button onclick="goToSearchUser()">Search User Accounts</button>
+<button onclick="goToSuspendUser()">Suspend User Account</button>
+<button onclick="goToUpdateUser()">Update User Account</button>
+<button onclick="goToViewUser()">View User Account</button>
+<br><br>
+
+<button onclick="logout()">Logout</button>
+
+<script>
+// Check if user is logged in
+if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html";
+}
+
+// Show username
+const username = localStorage.getItem("username");
+document.getElementById("welcomeMsg").innerText =
+    "Welcome, " + username;
+
+// Go to search user page
+function goToSearchUser() {
+    window.location.href = "search-user.html";
+}
+// Go to suspend user page
+function goToSuspendUser() {
+    window.location.href = "suspend-user.html";
+}
+
+// Logout
+function logout() {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("username");
+    window.location.href = "login.html";
+}
+
+// Go to update user page
+function goToUpdateUser() {
+    window.location.href = "update-user-account.html";
+}
+
+// Go to view user page
+function goToViewUser() {
+    window.location.href = "view-user-account.html";
+}
+</script>
+
+</body>
+</html>

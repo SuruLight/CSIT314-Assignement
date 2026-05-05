@@ -1,4 +1,4 @@
-package com.FRA.login_system;
+package com.FRA.login_system.controller;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.FRA.login_system.service.LoginService;
 
 @RestController
@@ -21,7 +22,7 @@ public class LoginController {
     @PostMapping("/login")
     public Map<String, Object> validateLogin(@RequestBody Map<String, String> request) {
         boolean success = loginService.authenticate(request.get("username"), request.get("password"));
-        
+
         Map<String, Object> response = new HashMap<>();
         response.put("success", success);
         response.put("message", success ? "Login successful" : "Invalid credentials");

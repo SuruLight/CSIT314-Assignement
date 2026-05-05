@@ -7,22 +7,21 @@ import com.FRA.login_system.entity.User;
 import com.FRA.login_system.repository.UserRepository;
 
 @Service
-public class LoginService {
+public class UpdateUserAccountService {
+
     @Autowired
     private UserRepository userRepository;
 
-    public boolean authenticate(String username, String password) {
-        // Business logic: "Check credentials"
-        User user = userRepository.findByUsernameAndPassword(username, password);
+    public User updateUserAccount(String accountName, String roleType, String permissions) {
+        User user = userRepository.findByUsername(accountName);
 
         if (user == null) {
-            return false;
+            return null;
         }
 
-        if (user.isSuspended()) {
-            return false;
-        }
+        user.setRole(roleType);
+        user.setPermissions(permissions);
 
-        return true;
+        return userRepository.save(user);
     }
 }

@@ -35,7 +35,8 @@ function login() {
         displayMessage(data);
 
         if (data.success) {
-            // redirect (Normal Flow step 4)
+            localStorage.setItem("loggedIn", "true");
+            localStorage.setItem("username", username);
             window.location.href = "dashboard.html";
         }
     });
