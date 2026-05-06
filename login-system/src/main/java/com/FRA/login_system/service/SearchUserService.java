@@ -15,7 +15,7 @@ public class SearchUserService {
     private UserRepository userRepository;
 
     public List<User> searchUser(String keyword) {
-        return userRepository.findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+        return userRepository.findByUsernamePasswordAndEmail(
             keyword,
             keyword,
             keyword
