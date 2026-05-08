@@ -62,6 +62,7 @@ public class User {
            ", Suspended: " + suspended;
     }
 
+    // UpdateUserAccount methods
     public void updateUserAccount(String accountName, String roleType, String permissions) {
         this.username = accountName;
         this.role = roleType;
@@ -70,5 +71,19 @@ public class User {
 
     public User returnUserAccount() {
         return this;
+    }
+
+    // ViewUserAccount methods
+    public String getUser(int userID) {
+        if (this.id == userID) {
+            return "User ID: " + id +
+               ", Username: " + username +
+               ", Role: " + role +
+               ", Full Name: " + fullName +
+               ", Email: " + email +
+               ", Phone: " + phone +
+               ", Permissions: " + permissions +
+               ", Suspended: " + suspended;}
+        return "User not found";
     }
 }
