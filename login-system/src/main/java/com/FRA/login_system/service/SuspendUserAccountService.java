@@ -7,7 +7,7 @@ import com.FRA.login_system.entity.User;
 import com.FRA.login_system.repository.UserRepository;
 
 @Service
-public class SuspendAccountService {
+public class SuspendUserAccountService {
 
     @Autowired
     private UserRepository userRepository;

@@ -13,16 +13,16 @@
 
 <h3>Functions</h3>
 
-<button onclick="goToSearchUser()">Search User Accounts</button><br><br>
-<button onclick="goToSuspendUser()">Suspend User Account</button><br><br>
-<button onclick="goToUpdateUser()">Update User Account</button><br><br>
-<button onclick="goToViewUser()">View User Account</button><br><br>
-<button onclick="goToCreateUser()">Create User Account</button><br><br>
-<button onclick="goToSearchUserProfile()">Search User Profile</button>
+<button onclick="goToSearchUserAccountPage()">Search User Accounts</button><br><br>
+<button onclick="goToSuspendUserAccountPage()">Suspend User Account</button><br><br>
+<button onclick="goToUpdateUserAccountPage()">Update User Account</button><br><br>
+<button onclick="goToViewUserAccountPage()">View User Account</button><br><br>
+<button onclick="goToCreateUserAccountPage()">Create User Account</button><br><br>
+<button onclick="goToSearchUserProfilePage()">Search User Profile</button>
 <br><br>
 <br><br>
 
-<button onclick="logout()">Logout</button>
+<button onclick="goToLogoutPage()">Logout</button>
 
 <script>
 // Check if user is logged in
@@ -36,39 +36,37 @@ document.getElementById("welcomeMsg").innerText =
     "Welcome, " + username;
 
 // Go to search user page
-function goToSearchUser() {
+function goToSearchUserAccountPage() {
     window.location.href = "SearchUserAccountPage.html";
 }
 // Go to suspend user page
-function goToSuspendUser() {
+function goToSuspendUserAccountPage() {
     window.location.href = "SuspendUserAccountPage.html";
 }
 
-// Logout
-function logout() {
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("username");
-    window.location.href = "LoginPage.html";
-}
-
 // Go to update user page
-function goToUpdateUser() {
+function goToUpdateUserAccountPage() {
     window.location.href = "UpdateUserAccountPage.html";
 }
 
 // Go to view user page
-function goToViewUser() {
+function goToViewUserAccountPage() {
     window.location.href = "ViewUserAccountPage.html";
 }
 
 // Go to create user page
-function goToCreateUser() {
+function goToCreateUserAccountPage() {
     window.location.href = "CreateUserAccountPage.html";
 }
 
 // Go to search user profile page
-function goToSearchUserProfile() {
+function goToSearchUserProfilePage() {
     window.location.href = "SearchUserProfilePage.html";
+}
+
+// Go to logout page
+function goToLogoutPage() {
+    window.location.href = "LogoutPage.html";
 }
 
 </script>

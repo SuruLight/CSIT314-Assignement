@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.FRA.login_system.entity.User;
-import com.FRA.login_system.service.SuspendAccountService;
+import com.FRA.login_system.service.SuspendUserAccountService;
 
 @RestController
 @RequestMapping("/api/admin/users")
 @CrossOrigin(origins = "*")
-public class SuspendAccountController {
+public class SuspendUserAccountController {
 
     @Autowired
-    private SuspendAccountService suspendAccountService;
+    private SuspendUserAccountService suspendAccountService;
 
     @PutMapping("/{userID}/suspend")
     public User updateStatus(@PathVariable int userID) {

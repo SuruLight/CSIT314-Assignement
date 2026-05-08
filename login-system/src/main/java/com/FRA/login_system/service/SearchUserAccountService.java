@@ -9,7 +9,7 @@ import com.FRA.login_system.entity.User;
 import com.FRA.login_system.repository.UserRepository;
 
 @Service
-public class SearchUserService {
+public class SearchUserAccountService {
 
     @Autowired
     private UserRepository userRepository;

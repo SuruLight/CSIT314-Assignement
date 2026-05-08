@@ -7,17 +7,16 @@
 
 <h2>Admin Logout</h2>
 
-<button onclick="logout()">Logout</button>
+<button onclick="clickLogout()">Logout</button>
 
 <p id="result"></p>
 
 <script>
-function logout() {
+function clickLogout() {
 
     localStorage.clear();
     sessionStorage.clear();
 
-    
     displayMessage("Logged out successfully");
 
     
@@ -27,8 +26,8 @@ function logout() {
 
 }
 
-function displayMessage(result) {
-    document.getElementById("result").innerText = result.message;
+function displayMessage(message) {
+    document.getElementById("result").innerText = message;
 }
 </script>
 

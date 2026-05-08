@@ -8,9 +8,9 @@
 <h2>Search User Account</h2>
 
 <input type="text" id="keyword" placeholder="Enter username or name">
-<button onclick="searchUser()">Search</button>
+<button onclick="inputSearch()">Search</button>
 
-<br><br>
+<p id="message"></p>
 
 <table border="1">
     <thead>
@@ -23,40 +23,60 @@
             <th>Phone</th>
         </tr>
     </thead>
+
     <tbody id="results"></tbody>
 </table>
 
 <br>
+
 <button onclick="goBack()">Back</button>
 
 <script>
-function searchUser() {
+
+function inputSearch() {
+
     const keyword = document.getElementById("keyword").value;
 
     fetch("http://localhost:8080/api/admin/users/search?keyword=" + keyword)
     .then(response => response.json())
     .then(data => {
-        const table = document.getElementById("results");
-        table.innerHTML = "";
+        displayResults(data);
+    });
+}
 
-        data.forEach(user => {
-            table.innerHTML += `
-                <tr>
-                    <td>${user.id}</td>
-                    <td>${user.username}</td>
-                    <td>${user.role}</td>
-                    <td>${user.fullName}</td>
-                    <td>${user.email}</td>
-                    <td>${user.phone}</td>
-                </tr>
-            `;
-        });
+function displayResults(userList) {
+
+    const table = document.getElementById("results");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (userList.length === 0) {
+        message.innerText = "No user account found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    userList.forEach(user => {
+
+        table.innerHTML += `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.role}</td>
+                <td>${user.fullName}</td>
+                <td>${user.email}</td>
+                <td>${user.phone}</td>
+            </tr>
+        `;
     });
 }
 
 function goBack() {
     window.location.href = "dashboard.html";
 }
+
 </script>
 
 </body>
