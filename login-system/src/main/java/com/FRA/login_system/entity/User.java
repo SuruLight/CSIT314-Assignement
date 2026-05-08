@@ -127,4 +127,12 @@ public class User {
            ", Role: " + role +
            ", Permissions: " + permissions;
     }
+
+    // CreateUserProfile methods
+    public void createProfile(String profileName, String roleType, String permissions) {
+        this.fullName = profileName;
+        this.role = roleType;
+        this.permissions = permissions;
+        this.suspended = false;
+    }
 }
