@@ -19,7 +19,7 @@ public class SuspendUserAccountService {
             return null;
         }
 
-        user.setSuspended(suspensionState);
+        user.saveStatusDB(suspensionState);
         return userRepository.save(user);
     }
 

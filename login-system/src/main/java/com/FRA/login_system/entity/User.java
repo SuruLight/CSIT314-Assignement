@@ -45,6 +45,30 @@ public class User {
     public void setFullName(String fullName) {this.fullName = fullName;}
     public void setEmail(String email) {this.email = email;}
     public void setPhone(String phone) {this.phone = phone;}
-    public void setSuspended(boolean suspended) {this.suspended = suspended;}
     public void setPermissions(String permissions) {this.permissions = permissions;}
+
+    // SuspendUserAccount methods
+    public void saveStatusDB(boolean suspensionState) {
+        this.suspended = suspensionState;
+    }
+
+    public String getAccountInfo() {
+    return "User ID: " + id +
+           ", Username: " + username +
+           ", Role: " + role +
+           ", Full Name: " + fullName +
+           ", Email: " + email +
+           ", Phone: " + phone +
+           ", Suspended: " + suspended;
+    }
+
+    public void updateUserAccount(String accountName, String roleType, String permissions) {
+        this.username = accountName;
+        this.role = roleType;
+        this.permissions = permissions;
+    }
+
+    public User returnUserAccount() {
+        return this;
+    }
 }

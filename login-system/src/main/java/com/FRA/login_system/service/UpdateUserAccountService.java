@@ -19,9 +19,9 @@ public class UpdateUserAccountService {
             return null;
         }
 
-        user.setRole(roleType);
-        user.setPermissions(permissions);
+        user.updateUserAccount(accountName, roleType, permissions);
+        userRepository.save(user);
 
-        return userRepository.save(user);
+        return user.returnUserAccount();
     }
 }

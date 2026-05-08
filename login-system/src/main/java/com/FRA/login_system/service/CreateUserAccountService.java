@@ -26,7 +26,7 @@ public class CreateUserAccountService {
         user.setRole(role);
         user.setPermissions(permissions);
         user.setEmail(email);
-        user.setSuspended(false);
+        user.saveStatusDB(false);
 
         userRepository.save(user);
 
