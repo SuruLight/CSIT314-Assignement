@@ -86,4 +86,16 @@ public class User {
                ", Suspended: " + suspended;}
         return "User not found";
     }
+
+    // CreateUserAccount methods
+    public boolean createUserAccount(String userName, String role, String permissions, String password, String email) {
+        this.username = userName;
+        this.role = role;
+        this.permissions = permissions;
+        this.password = password;
+        this.email = email;
+        this.suspended = false;
+
+        return true;
+    }
 }

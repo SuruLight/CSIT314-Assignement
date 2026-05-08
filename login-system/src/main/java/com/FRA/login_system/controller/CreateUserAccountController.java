@@ -21,7 +21,6 @@ public class CreateUserAccountController {
 
     @PostMapping("/create")
     public boolean createUserAccount(@RequestBody Map<String, String> request) {
-
         String userName = request.get("userName");
         String role = request.get("role");
         String permissions = request.get("permissions");

@@ -21,12 +21,8 @@ public class CreateUserAccountService {
         }
 
         User user = new User();
-        user.setUsername(userName);
-        user.setPassword(password);
-        user.setRole(role);
-        user.setPermissions(permissions);
-        user.setEmail(email);
-        user.saveStatusDB(false);
+
+        user.createUserAccount(userName, role, permissions, password, email);
 
         userRepository.save(user);
 
