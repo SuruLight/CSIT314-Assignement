@@ -20,12 +20,23 @@ public class LoginController {
     private LoginService loginService; // Now using Service instead of Repository
 
     @PostMapping("/login")
-    public Map<String, Object> validateLogin(@RequestBody Map<String, String> request) {
-        boolean success = loginService.authenticate(request.get("username"), request.get("password"));
+    public Map<String, Object> validateLogin(
+            @RequestBody Map<String, String> request) {
+
+        String username = request.get("username");
+        String password = request.get("password");
+
+        boolean success =
+            loginService.verifyCredentials(username, password);
+
+        String message =
+            loginService.getLoginMessage(username, password);
 
         Map<String, Object> response = new HashMap<>();
+
         response.put("success", success);
-        response.put("message", success ? "Login successful" : "Invalid credentials");
+        response.put("message", message);
+
         return response;
     }
 }

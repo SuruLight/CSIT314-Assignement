@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MainBoot",
+            "request": "launch",
+            "mainClass": "com.FRA.login_system.MainBoot",
+            "projectName": "login-system"
+        },
+        {
+            "type": "java",
             "name": "main",
             "request": "launch",
             "mainClass": "com.FRA.login_system.main",

@@ -16,7 +16,7 @@ public class SearchUserProfileService {
 
     public List<User> searchUser(String criteria) {
         return userRepository
-            .findByUsernamePasswordAndEmail(
+            .findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
                 criteria,
                 criteria,
                 criteria

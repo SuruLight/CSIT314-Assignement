@@ -27,7 +27,7 @@
 <script>
 // Check if user is logged in
 if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "login.html";
+    window.location.href = "LoginPage.html";
 }
 
 // Show username
@@ -37,38 +37,38 @@ document.getElementById("welcomeMsg").innerText =
 
 // Go to search user page
 function goToSearchUser() {
-    window.location.href = "search-user.html";
+    window.location.href = "SearchUserAccountPage.html";
 }
 // Go to suspend user page
 function goToSuspendUser() {
-    window.location.href = "suspend-user.html";
+    window.location.href = "SuspendUserAccountPage.html";
 }
 
 // Logout
 function logout() {
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("username");
-    window.location.href = "login.html";
+    window.location.href = "LoginPage.html";
 }
 
 // Go to update user page
 function goToUpdateUser() {
-    window.location.href = "update-user-account.html";
+    window.location.href = "UpdateUserAccountPage.html";
 }
 
 // Go to view user page
 function goToViewUser() {
-    window.location.href = "view-user-account.html";
+    window.location.href = "ViewUserAccountPage.html";
 }
 
 // Go to create user page
 function goToCreateUser() {
-    window.location.href = "create-user-account.html";
+    window.location.href = "CreateUserAccountPage.html";
 }
 
 // Go to search user profile page
 function goToSearchUserProfile() {
-    window.location.href = "search-user-profile.html";
+    window.location.href = "SearchUserProfilePage.html";
 }
 
 </script>
