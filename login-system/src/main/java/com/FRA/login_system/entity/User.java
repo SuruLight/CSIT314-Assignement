@@ -73,7 +73,7 @@ public class User {
         return this;
     }
 
-    // ViewUserAccount methods
+    // ViewUserAccount  methods
     public String getUser(int userID) {
         if (this.id == userID) {
             return "User ID: " + id +
@@ -97,5 +97,34 @@ public class User {
         this.suspended = false;
 
         return true;
+    }
+    // SearchUserProfile methods
+    public boolean findUser(String criteria) {
+
+    return username.toLowerCase().contains(criteria.toLowerCase())
+        || fullName.toLowerCase().contains(criteria.toLowerCase())
+        || email.toLowerCase().contains(criteria.toLowerCase());
+    }
+
+    // SuspendUserProfile methods
+    public void suspendProfile() {
+        this.suspended = true;
+    }
+
+    // UpdateUserProfile methods
+    public void updateProfile(String profileName, String roleType, String permissions) {
+        this.fullName = profileName;
+        this.role = roleType;
+        this.permissions = permissions;
+    }
+    // ViewUserProfile methods
+    public String getAllUserProfiles() {
+    return "User ID: " + id +
+           ", Username: " + username +
+           ", Full Name: " + fullName +
+           ", Email: " + email +
+           ", Phone: " + phone +
+           ", Role: " + role +
+           ", Permissions: " + permissions;
     }
 }

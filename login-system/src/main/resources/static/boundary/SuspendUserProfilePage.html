@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Suspend User Profile</title>
+</head>
+<body>
+
+<h2>Suspend User Profile</h2>
+
+<input type="number" id="userID" placeholder="Enter User ID">
+<button onclick="selectProfile()">Suspend</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function selectProfile() {
+    const userID = document.getElementById("userID").value;
+
+    fetch("http://localhost:8080/api/admin/profiles/" + userID + "/suspend", {
+        method: "PUT"
+    })
+    .then(response => response.json())
+    .then(userProfile => {
+        displayMessage(userProfile);
+    });
+}
+
+function displayMessage(userProfile) {
+    if (userProfile == null) {
+        document.getElementById("result").innerText =
+            "Error updating profile. Please try again.";
+        return;
+    }
+
+    document.getElementById("result").innerText =
+        "User profile suspended successfully. Username: " +
+        userProfile.username;
+}
+
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

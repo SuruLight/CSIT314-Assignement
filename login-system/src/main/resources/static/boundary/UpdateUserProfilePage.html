@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update User Profile</title>
+</head>
+<body>
+
+<h2>Update User Profile</h2>
+
+<input type="text" id="profileName" placeholder="Enter username">
+<br>
+
+<select id="roleType">
+    <option value="USER_ADMIN">USER_ADMIN</option>
+    <option value="FR">FR</option>
+    <option value="DONEE">DONEE</option>
+    <option value="PLATFORM_MANAGEMENT">PLATFORM_MANAGEMENT</option>
+</select>
+
+<p><b>Select Permissions:</b></p>
+
+<label><input type="checkbox" value="SEARCH_USER"> Search User</label><br>
+<label><input type="checkbox" value="VIEW_USER"> View User</label><br>
+<label><input type="checkbox" value="SUSPEND_USER"> Suspend User</label><br>
+<label><input type="checkbox" value="UPDATE_USER"> Update User</label><br>
+
+<button onclick="editProfile()">Update Profile</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function editProfile() {
+    const profileName = document.getElementById("profileName").value;
+    const roleType = document.getElementById("roleType").value;
+
+    const selectedPermissions =
+        document.querySelectorAll('input[type="checkbox"]:checked');
+
+    let permissions = [];
+
+    selectedPermissions.forEach(p => {
+        permissions.push(p.value);
+    });
+
+    permissions = permissions.join(",");
+
+    fetch("http://localhost:8080/api/admin/profiles/update", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            profileName: profileName,
+            roleType: roleType,
+            permissions: permissions
+        })
+    })
+    .then(response => response.json())
+    .then(userProfile => {
+        displayMessage(userProfile);
+    });
+}
+
+function displayMessage(userProfile) {
+    if (userProfile == null) {
+        document.getElementById("result").innerText =
+            "Error updating profile. Please try again.";
+        return;
+    }
+
+    document.getElementById("result").innerText =
+        "Profile updated successfully. Username: " +
+        userProfile.username;
+}
+
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

@@ -18,7 +18,10 @@
 <button onclick="goToUpdateUserAccountPage()">Update User Account</button><br><br>
 <button onclick="goToViewUserAccountPage()">View User Account</button><br><br>
 <button onclick="goToCreateUserAccountPage()">Create User Account</button><br><br>
-<button onclick="goToSearchUserProfilePage()">Search User Profile</button>
+<button onclick="goToSearchUserProfilePage()">Search User Profile</button><br><br>
+<button onclick="goToSuspendProfile()">Suspend User Profile</button><br><br>
+<button onclick="goToUpdateProfile()">Update User Profile</button><br><br>
+<button onclick="goToViewUserProfile()">View User Profiles</button>
 <br><br>
 <br><br>
 
@@ -63,10 +66,24 @@ function goToCreateUserAccountPage() {
 function goToSearchUserProfilePage() {
     window.location.href = "SearchUserProfilePage.html";
 }
+// Go to suspend user profile page
+function goToSuspendProfile() {
+    window.location.href = "SuspendUserProfilePage.html";
+}
+
+// Go to update user profile page
+function goToUpdateProfile() {
+    window.location.href = "UpdateUserProfilePage.html";
+}
 
 // Go to logout page
 function goToLogoutPage() {
     window.location.href = "LogoutPage.html";
+}
+
+// Go to view user profile page
+function goToViewUserProfile() {
+    window.location.href = "ViewUserProfilePage.html";
 }
 
 </script>
