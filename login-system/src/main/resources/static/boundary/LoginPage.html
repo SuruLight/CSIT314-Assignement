@@ -50,16 +50,16 @@ function enterLoginDetails() {
             localStorage.setItem("role", data.role);
 
             if (data.role === "USER_ADMIN") {
-                window.location.href = "dashboard.html";
+                window.location.href = "Dashboard.html";
 
             } else if (data.role === "FR") {
-                window.location.href = "fundRaiserDashboard.html";
+                window.location.href = "FundRaiserDashboard.html";
 
             } else if (data.role === "DONEE") {
-                window.location.href = "doneeDashboard.html";
+                window.location.href = "DoneeDashboard.html";
 
             } else if (data.role === "PLATFORM_MANAGEMENT") {
-                window.location.href = "managementDashboard.html";
+                window.location.href = "PlatformManagementDashboard.html";
             }
         }
     });

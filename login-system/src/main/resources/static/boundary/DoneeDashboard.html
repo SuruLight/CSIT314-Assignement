@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donee Dashboard</title>
+</head>
+<body>
+
+<h1>Donee Dashboard</h1>
+
+<p id="welcomeMsg"></p>
+
+<hr>
+
+<h3>Functions</h3>
+
+<button onclick="goToSearchUserAccountPage()">Search User Accounts</button><br><br>
+<button onclick="goToSuspendUserAccountPage()">Suspend User Account</button><br><br>
+<button onclick="goToUpdateUserAccountPage()">Update User Account</button><br><br>
+<button onclick="goToViewUserAccountPage()">View User Account</button><br><br>
+<button onclick="goToCreateUserAccountPage()">Create User Account</button><br><br>
+<button onclick="goToSearchUserProfilePage()">Search User Profile</button><br><br>
+<button onclick="goToSuspendProfile()">Suspend User Profile</button><br><br>
+<button onclick="goToUpdateProfile()">Update User Profile</button><br><br>
+<button onclick="goToViewUserProfile()">View User Profiles</button><br><br>
+<button onclick="goToCreateProfile()">Create User Profile</button>
+<br><br>
+<br><br>
+
+<button onclick="goToLogoutPage()">Logout</button>
+
+<script>
+// Check if user is logged in
+if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "LoginPage.html";
+}
+
+// Show username
+const username = localStorage.getItem("username");
+document.getElementById("welcomeMsg").innerText =
+    "Welcome, " + username;
+
+// Go to search user page
+function goToSearchUserAccountPage() {
+    window.location.href = "SearchUserAccountPage.html";
+}
+// Go to suspend user page
+function goToSuspendUserAccountPage() {
+    window.location.href = "SuspendUserAccountPage.html";
+}
+
+// Go to update user page
+function goToUpdateUserAccountPage() {
+    window.location.href = "UpdateUserAccountPage.html";
+}
+
+// Go to view user page
+function goToViewUserAccountPage() {
+    window.location.href = "ViewUserAccountPage.html";
+}
+
+// Go to create user page
+function goToCreateUserAccountPage() {
+    window.location.href = "CreateUserAccountPage.html";
+}
+
+// Go to search user profile page
+function goToSearchUserProfilePage() {
+    window.location.href = "SearchUserProfilePage.html";
+}
+// Go to suspend user profile page
+function goToSuspendProfile() {
+    window.location.href = "SuspendUserProfilePage.html";
+}
+
+// Go to update user profile page
+function goToUpdateProfile() {
+    window.location.href = "UpdateUserProfilePage.html";
+}
+
+// Go to logout page
+function goToLogoutPage() {
+    window.location.href = "LogoutPage.html";
+}
+
+// Go to view user profile page
+function goToViewUserProfile() {
+    window.location.href = "ViewUserProfilePage.html";
+}
+
+// Go to create user profile page
+function goToCreateProfile() {
+    window.location.href = "CreateUserProfilePage.html";
+}
+
+</script>
+
+</body>
+</html>
