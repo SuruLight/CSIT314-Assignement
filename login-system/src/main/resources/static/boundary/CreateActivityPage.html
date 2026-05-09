@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Fund Raising Activity</title>
+</head>
+<body>
+
+<h2>Create Fund Raising Activity</h2>
+
+<input type="text" id="activityName" placeholder="Activity Name"><br>
+<input type="text" id="description" placeholder="Description"><br>
+<input type="number" id="targetAmount" placeholder="Target Amount"><br>
+
+<button onclick="enterActivityDetails()">Create Activity</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function enterActivityDetails() {
+    const activityName = document.getElementById("activityName").value;
+    const description = document.getElementById("description").value;
+    const targetAmount = document.getElementById("targetAmount").value;
+
+    fetch("http://localhost:8080/api/fr/activities/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            activityName: activityName,
+            description: description,
+            targetAmount: targetAmount
+        })
+    })
+    .then(response => response.text())
+    .then(result => {
+        displayMessage(result);
+    });
+}
+
+function displayMessage(result) {
+    document.getElementById("result").innerText = result;
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>
