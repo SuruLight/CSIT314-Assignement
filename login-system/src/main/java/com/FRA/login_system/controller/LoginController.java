@@ -23,15 +23,16 @@ public class LoginController {
     public Map<String, Object> validateLogin(@RequestBody Map<String, String> request) {
         String username = request.get("username");
         String password = request.get("password");
+        String role = request.get("role");
 
-        boolean success = loginService.verifyCredentials(username, password);
-
-        String message = loginService.getLoginMessage(username, password);
+        boolean success = loginService.verifyCredentials(username, password, role);
+        String message = loginService.getLoginMessage(username, password, role);
 
         Map<String, Object> response = new HashMap<>();
 
         response.put("success", success);
         response.put("message", message);
+        response.put("role", loginService.getUserRole(username, password, role));
 
         return response;
     }
