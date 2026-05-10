@@ -1,4 +1,4 @@
-package com.FRA.login_system.controller;
+package com.FRA.login_system.controller.ActivityController;
 
 import java.util.Map;
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.FRA.login_system.service.CreateActivityService;
+import com.FRA.login_system.service.ActivityService.CreateActivityService;
 
 @RestController
 @RequestMapping("/api/fr/activities")

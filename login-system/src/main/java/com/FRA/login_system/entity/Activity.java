@@ -46,6 +46,11 @@ public class Activity {
         return "Fundraising activity updated successfully.";
     }
 
+    // DeleteActivity method
+    public String deleteActivity(String activityID) {
+        return "Fundraising activity deleted successfully.";
+    }
+
     public int getActivityId() {
         return activityId;
     }

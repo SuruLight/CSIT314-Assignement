@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Fundraising Activity</title>
+</head>
+<body>
+
+<h2>Delete Fundraising Activity</h2>
+
+<input type="text" id="activityID" placeholder="Enter Activity ID">
+<br>
+
+<button onclick="selectActivity()">Delete Activity</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function selectActivity() {
+    const activityID = document.getElementById("activityID").value;
+
+    confirmDeletion(activityID);
+}
+
+function confirmDeletion(activityID) {
+    const confirmed = confirm("Are you sure you want to delete this activity?");
+
+    if (!confirmed) {
+        displayMessage("Deletion cancelled.");
+        return;
+    }
+
+    fetch("http://localhost:8080/api/fr/activities/delete/" + activityID, {
+        method: "DELETE"
+    })
+    .then(response => response.text())
+    .then(result => {
+        displayMessage(result);
+    })
+    .catch(error => {
+        displayErrorMsg("Error deleting activity. Please try again.");
+    });
+}
+
+function displayMessage(result) {
+    document.getElementById("result").innerText = result;
+}
+
+function displayErrorMsg(message) {
+    document.getElementById("result").innerText = message;
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>

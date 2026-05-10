@@ -1,4 +1,4 @@
-package com.FRA.login_system.service;
+package com.FRA.login_system.service.ActivityService;
 
 import java.util.List;
 

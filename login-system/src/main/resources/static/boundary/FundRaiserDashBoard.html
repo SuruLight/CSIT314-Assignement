@@ -14,8 +14,9 @@
 <h3>Functions</h3>
 
 <button onclick="goToCreateActivity()">Create Fund Raising Activity</button><br><br>
-<button onclick="goToViewActivity()">View Fund Raising Activity</button>
-<button onclick="goToUpdateActivity()">Update Fundraising Activity</button>
+<button onclick="goToViewActivity()">View Fund Raising Activity</button><br><br>
+<button onclick="goToUpdateActivity()">Update Fundraising Activity</button><br><br>
+<button onclick="goToDeleteActivity()">Delete Fundraising Activity</button>
 <br><br>
 <br><br>
 
@@ -45,6 +46,11 @@ function goToViewActivity() {
 // Go to update activity page
 function goToUpdateActivity() {
     window.location.href = "UpdateActivityPage.html";
+}
+
+// Go to delete activity page
+function goToDeleteActivity() {
+    window.location.href = "DeleteActivityPage.html";
 }
 
 // Go to logout page
