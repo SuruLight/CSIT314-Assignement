@@ -18,7 +18,23 @@ public class Activity {
     private String description;
     private double targetAmount;
 
+    private String category;
+    private String status;
+
     public Activity() {}
+
+    public int getActivityId() {return activityId;}
+    public String getActivityName() {return activityName;}
+    public String getDescription() {return description;}
+    public double getTargetAmount() {return targetAmount;}
+    public String getCategory() {return category;}
+    public String getStatus() {return status;}
+
+    public void setActivityName(String activityName) {this.activityName = activityName;}
+    public void setDescription(String description) {this.description = description;}
+    public void setTargetAmount(double targetAmount) {this.targetAmount = targetAmount;}
+    public void setCategory(String category) {this.category = category;}
+    public void setStatus(String status) {this.status = status;}
 
     // CreatedActivity method
     public String createActivity(String activityName, String description,double targetAmount) {
@@ -51,31 +67,10 @@ public class Activity {
         return "Fundraising activity deleted successfully.";
     }
 
-    public int getActivityId() {
-        return activityId;
-    }
-
-    public String getActivityName() {
-        return activityName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getTargetAmount() {
-        return targetAmount;
-    }
-
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setTargetAmount(double targetAmount) {
-        this.targetAmount = targetAmount;
+    // SearchActivity method
+    public String searchActivity(String activityName, String category, String status) {
+        return "Searching activity by name: " + activityName +
+            ", category: " + category +
+            ", status: " + status;
     }
 }
