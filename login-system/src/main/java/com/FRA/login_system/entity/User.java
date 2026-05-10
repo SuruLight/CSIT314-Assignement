@@ -45,6 +45,94 @@ public class User {
     public void setFullName(String fullName) {this.fullName = fullName;}
     public void setEmail(String email) {this.email = email;}
     public void setPhone(String phone) {this.phone = phone;}
-    public void setSuspended(boolean suspended) {this.suspended = suspended;}
     public void setPermissions(String permissions) {this.permissions = permissions;}
+
+    // SuspendUserAccount methods
+    public void saveStatusDB(boolean suspensionState) {
+        this.suspended = suspensionState;
+    }
+
+    public String getAccountInfo() {
+    return "User ID: " + id +
+           ", Username: " + username +
+           ", Role: " + role +
+           ", Full Name: " + fullName +
+           ", Email: " + email +
+           ", Phone: " + phone +
+           ", Suspended: " + suspended;
+    }
+
+    // UpdateUserAccount methods
+    public void updateUserAccount(String accountName, String roleType, String permissions) {
+        this.username = accountName;
+        this.role = roleType;
+        this.permissions = permissions;
+    }
+
+    public User returnUserAccount() {
+        return this;
+    }
+
+    // ViewUserAccount  methods
+    public String getUser(int userID) {
+        if (this.id == userID) {
+            return "User ID: " + id +
+               ", Username: " + username +
+               ", Role: " + role +
+               ", Full Name: " + fullName +
+               ", Email: " + email +
+               ", Phone: " + phone +
+               ", Permissions: " + permissions +
+               ", Suspended: " + suspended;}
+        return "User not found";
+    }
+
+    // CreateUserAccount methods
+    public boolean createUserAccount(String userName, String role, String permissions, String password, String email) {
+        this.username = userName;
+        this.role = role;
+        this.permissions = permissions;
+        this.password = password;
+        this.email = email;
+        this.suspended = false;
+
+        return true;
+    }
+    // SearchUserProfile methods
+    public boolean findUser(String criteria) {
+
+    return username.toLowerCase().contains(criteria.toLowerCase())
+        || fullName.toLowerCase().contains(criteria.toLowerCase())
+        || email.toLowerCase().contains(criteria.toLowerCase());
+    }
+
+    // SuspendUserProfile methods
+    public void suspendProfile() {
+        this.suspended = true;
+    }
+
+    // UpdateUserProfile methods
+    public void updateProfile(String profileName, String roleType, String permissions) {
+        this.fullName = profileName;
+        this.role = roleType;
+        this.permissions = permissions;
+    }
+    // ViewUserProfile methods
+    public String getAllUserProfiles() {
+    return "User ID: " + id +
+           ", Username: " + username +
+           ", Full Name: " + fullName +
+           ", Email: " + email +
+           ", Phone: " + phone +
+           ", Role: " + role +
+           ", Permissions: " + permissions;
+    }
+
+    // CreateUserProfile methods
+    public void createProfile(String profileName, String roleType, String permissions) {
+        this.fullName = profileName;
+        this.role = roleType;
+        this.permissions = permissions;
+        this.suspended = false;
+    }
 }

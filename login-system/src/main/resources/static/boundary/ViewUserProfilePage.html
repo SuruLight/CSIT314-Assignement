@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View User Profiles</title>
+</head>
+<body>
+
+<h2>View User Profiles</h2>
+
+<button onclick="requestUserProfiles()">View User Profiles</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Permissions</th>
+        </tr>
+    </thead>
+    <tbody id="userProfiles"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function requestUserProfiles() {
+    fetch("http://localhost:8080/api/admin/user-profiles/all")
+    .then(response => response.json())
+    .then(userProfileList => {
+        displayUserProfiles(userProfileList);
+    });
+}
+
+function displayUserProfiles(userProfileList) {
+    const table = document.getElementById("userProfiles");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (userProfileList.length === 0) {
+        message.innerText = "No user profiles found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    userProfileList.forEach(user => {
+        table.innerHTML += `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.fullName}</td>
+                <td>${user.email}</td>
+                <td>${user.phone}</td>
+                <td>${user.role}</td>
+                <td>${user.permissions}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

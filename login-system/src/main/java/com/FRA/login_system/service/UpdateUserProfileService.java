@@ -7,21 +7,20 @@ import com.FRA.login_system.entity.User;
 import com.FRA.login_system.repository.UserRepository;
 
 @Service
-public class UpdateUserAccountService {
+public class UpdateUserProfileService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public User updateUserAccount(String accountName, String roleType, String permissions) {
-        User user = userRepository.findByUsername(accountName);
+    public User updateProfile(String profileName, String roleType, String permissions) {
+        User user = userRepository.findByUsername(profileName);
 
         if (user == null) {
             return null;
         }
 
-        user.updateUserAccount(accountName, roleType, permissions);
-        userRepository.save(user);
+        user.updateProfile(profileName, roleType, permissions);
 
-        return user.returnUserAccount();
+        return userRepository.save(user);
     }
 }

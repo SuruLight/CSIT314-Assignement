@@ -11,18 +11,40 @@ public class LoginService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean authenticate(String username, String password) {
-        // Business logic: "Check credentials"
+    public boolean verifyCredentials(String username, String password, String role) {
+
         User user = userRepository.findByUsernameAndPassword(username, password);
 
+        boolean loginStatus = false;
+
+        if (user != null && !user.isSuspended()) {
+            loginStatus = true;
+        }
+
+        return loginStatus;
+    }
+
+    public String getLoginMessage(String username, String password, String role) {
+        User user = userRepository.findByUsernameAndPasswordAndRole(username, password, role);
+
         if (user == null) {
-            return false;
+            return "Invalid credentials or role";
         }
 
         if (user.isSuspended()) {
-            return false;
+            return "Account suspended";
         }
 
-        return true;
+        return "Login successful";
+    }
+
+    public String getUserRole(String username, String password, String role) {
+        User user = userRepository.findByUsernameAndPasswordAndRole(username, password, role);
+
+        if (user == null) {
+            return null;
+        }
+
+        return user.getRole();
     }
 }

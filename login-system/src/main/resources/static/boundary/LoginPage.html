@@ -7,18 +7,26 @@
 
 <h2>Admin Login</h2>
 
+<select id="role">
+    <option value="USER_ADMIN">User Admin</option>
+    <option value="FR">Fund Raiser</option>
+    <option value="DONEE">Donee</option>
+    <option value="PLATFORM_MANAGEMENT">Platform Management</option>
+</select><br><br>
+
 <input type="text" id="username" placeholder="Username"><br><br>
 <input type="password" id="password" placeholder="Password"><br><br>
 
-<button onclick="login()">Login</button>
+<button onclick="enterLoginDetails()">Login</button>
 
 <p id="result"></p>
 
 <script>
-function login() {
+function enterLoginDetails() {
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
 
     fetch("http://localhost:8080/api/login", {
         method: "POST",
@@ -27,7 +35,8 @@ function login() {
         },
         body: JSON.stringify({
             username: username,
-            password: password
+            password: password,
+            role: role
         })
     })
     .then(response => response.json())
@@ -35,9 +44,23 @@ function login() {
         displayMessage(data);
 
         if (data.success) {
+
             localStorage.setItem("loggedIn", "true");
             localStorage.setItem("username", username);
-            window.location.href = "dashboard.html";
+            localStorage.setItem("role", data.role);
+
+            if (data.role === "USER_ADMIN") {
+                window.location.href = "Dashboard.html";
+
+            } else if (data.role === "FR") {
+                window.location.href = "FundRaiserDashboard.html";
+
+            } else if (data.role === "DONEE") {
+                window.location.href = "DoneeDashboard.html";
+
+            } else if (data.role === "PLATFORM_MANAGEMENT") {
+                window.location.href = "PlatformManagementDashboard.html";
+            }
         }
     });
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search User Profile</title>
+</head>
+<body>
+
+<h2>Search User Profile</h2>
+
+<input type="text" id="criteria" placeholder="Enter username, name or email">
+<button onclick="enterSearchCriteria()">Search</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Permissions</th>
+        </tr>
+    </thead>
+    <tbody id="results"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function enterSearchCriteria() {
+    const criteria = document.getElementById("criteria").value;
+
+    if (criteria.trim() === "") {
+        document.getElementById("message").innerText =
+            "Please enter search criteria.";
+        return;
+    }
+
+    fetch("http://localhost:8080/api/admin/user-profiles/search?criteria=" + criteria)
+    .then(response => response.json())
+    .then(results => {
+        displayResults(results);
+    })
+    .catch(error => {
+        document.getElementById("message").innerText =
+            "System error. Failed to retrieve user data.";
+    });
+}
+
+function displayResults(results) {
+    const table = document.getElementById("results");
+    table.innerHTML = "";
+
+    if (results.length === 0) {
+        document.getElementById("message").innerText =
+            "No matching user found.";
+        return;
+    }
+
+    document.getElementById("message").innerText = "";
+
+    results.forEach(user => {
+        table.innerHTML += `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.fullName}</td>
+                <td>${user.email}</td>
+                <td>${user.phone}</td>
+                <td>${user.role}</td>
+                <td>${user.permissions}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

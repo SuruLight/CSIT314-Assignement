@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Fund Raising Activity</title>
+</head>
+<body>
+
+<h2>Search Fund Raising Activity</h2>
+
+<input type="text" id="activityName" placeholder="Activity name"><br>
+<input type="text" id="category" placeholder="Category"><br>
+<input type="text" id="status" placeholder="Status"><br>
+
+<button onclick="enterSearchCriteria()">Search Activity</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Activity ID</th>
+            <th>Activity Name</th>
+            <th>Description</th>
+            <th>Target Amount</th>
+            <th>Category</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="activityTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function enterSearchCriteria() {
+    const activityName = document.getElementById("activityName").value;
+    const category = document.getElementById("category").value;
+    const status = document.getElementById("status").value;
+
+    fetch("http://localhost:8080/api/fr/activities/search?activityName=" 
+        + activityName + "&category=" + category + "&status=" + status)
+    .then(response => response.json())
+    .then(activityList => {
+        displayResults(activityList);
+    });
+}
+
+function displayResults(activityList) {
+    const table = document.getElementById("activityTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (activityList.length === 0) {
+        message.innerText = "No fundraising activities found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    activityList.forEach(activity => {
+        table.innerHTML += `
+            <tr>
+                <td>${activity.activityId}</td>
+                <td>${activity.activityName}</td>
+                <td>${activity.description}</td>
+                <td>${activity.targetAmount}</td>
+                <td>${activity.category}</td>
+                <td>${activity.status}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>

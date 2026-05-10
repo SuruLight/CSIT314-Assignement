@@ -1,7 +1,5 @@
 package com.FRA.login_system.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,15 +7,21 @@ import com.FRA.login_system.entity.User;
 import com.FRA.login_system.repository.UserRepository;
 
 @Service
-public class SearchUserService {
+public class SuspendUserProfileService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> searchUser(String keyword) {
-        return userRepository.findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCase(
-            keyword,
-            keyword
-        );
+    public User suspendProfile(int userID) {
+
+        User user = userRepository.findById(userID).orElse(null);
+
+        if (user == null) {
+            return null;
+        }
+
+        user.suspendProfile();
+
+        return userRepository.save(user);
     }
 }
