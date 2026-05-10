@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Fund Raising Activity</title>
+</head>
+<body>
+
+<h2>View Fund Raising Activity</h2>
+
+<button onclick="viewActivity()">View Activity</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Activity ID</th>
+            <th>Activity Name</th>
+            <th>Description</th>
+            <th>Target Amount</th>
+        </tr>
+    </thead>
+    <tbody id="activityTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function viewActivity() {
+    fetch("http://localhost:8080/api/fr/activities/view")
+    .then(response => response.json())
+    .then(activityList => {
+        displayActivity(activityList);
+    })
+    .catch(error => {
+        displayErrorMsg("Failed to retrieve activities.");
+    });
+}
+
+function displayActivity(activityList) {
+    const table = document.getElementById("activityTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (activityList.length === 0) {
+        message.innerText = "No fundraising activities available.";
+        return;
+    }
+
+    message.innerText = "";
+
+    activityList.forEach(activity => {
+        table.innerHTML += `
+            <tr>
+                <td>${activity.activityId}</td>
+                <td>${activity.activityName}</td>
+                <td>${activity.description}</td>
+                <td>${activity.targetAmount}</td>
+            </tr>
+        `;
+    });
+}
+
+function displayErrorMsg(message) {
+    document.getElementById("message").innerText = message;
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>

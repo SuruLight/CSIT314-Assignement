@@ -13,7 +13,9 @@
 
 <h3>Functions</h3>
 
-<button onclick="goToCreateActivity()">Create Fund Raising Activity</button>
+<button onclick="goToCreateActivity()">Create Fund Raising Activity</button><br><br>
+<button onclick="goToViewActivity()">View Fund Raising Activity</button>
+<button onclick="goToUpdateActivity()">Update Fundraising Activity</button>
 <br><br>
 <br><br>
 
@@ -33,6 +35,16 @@ document.getElementById("welcomeMsg").innerText =
 // Go to create activity page
 function goToCreateActivity() {
     window.location.href = "CreateActivityPage.html";
+}
+
+// Go to view activity page
+function goToViewActivity() {
+    window.location.href = "ViewActivityPage.html";
+}
+
+// Go to update activity page
+function goToUpdateActivity() {
+    window.location.href = "UpdateActivityPage.html";
 }
 
 // Go to logout page

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Fundraising Activity</title>
+</head>
+<body>
+
+<h2>Update Fundraising Activity</h2>
+
+<input type="number" id="activityId" placeholder="Activity ID"><br>
+<input type="text" id="activityName" placeholder="New Activity Name"><br>
+<input type="text" id="description" placeholder="New Description"><br>
+<input type="number" id="targetAmount" placeholder="New Target Amount"><br>
+
+<button onclick="editActivityDetails()">Update Activity</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function editActivityDetails() {
+    const activityId = document.getElementById("activityId").value;
+    const activityName = document.getElementById("activityName").value;
+    const description = document.getElementById("description").value;
+    const targetAmount = document.getElementById("targetAmount").value;
+
+    fetch("http://localhost:8080/api/fr/activities/update", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            activityId: activityId,
+            activityName: activityName,
+            description: description,
+            targetAmount: targetAmount
+        })
+    })
+    .then(response => response.text())
+    .then(result => {
+        displayMessage(result);
+    })
+    .catch(error => {
+        displayErrorMsg("Error updating activity. Please try again.");
+    });
+}
+
+function displayMessage(result) {
+    document.getElementById("result").innerText = result;
+}
+
+function displayErrorMsg(message) {
+    document.getElementById("result").innerText = message;
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>

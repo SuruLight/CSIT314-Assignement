@@ -20,12 +20,30 @@ public class Activity {
 
     public Activity() {}
 
+    // CreatedActivity method
     public String createActivity(String activityName, String description,double targetAmount) {
         this.activityName = activityName;
         this.description = description;
         this.targetAmount = targetAmount;
 
         return "Fund raising activity created successfully.";
+    }
+
+    // ViewActivity method
+    public String viewActivity() {
+        return "Activity ID: " + activityId +
+            ", Name: " + activityName +
+            ", Description: " + description +
+            ", Target Amount: " + targetAmount;
+    }
+
+    // UpdateActivity method
+    public String updateActivity(String activityName, String description, double targetAmount) {
+        this.activityName = activityName;
+        this.description = description;
+        this.targetAmount = targetAmount;
+
+        return "Fundraising activity updated successfully.";
     }
 
     public int getActivityId() {
