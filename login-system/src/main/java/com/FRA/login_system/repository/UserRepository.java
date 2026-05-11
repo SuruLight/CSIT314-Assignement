@@ -1,21 +1,10 @@
 package com.FRA.login_system.repository;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.FRA.login_system.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+@Repository
+public interface UserRepository extends JpaRepository<User, String> { 
     User findByUsernameAndPassword(String username, String password);
-    
-    User findByUsername(String username);
-
-    User findByUsernameAndPasswordAndRole(String username, String password,String role);
-
-    List<User> findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
-        String username,
-        String fullName,
-        String email
-    );
 }

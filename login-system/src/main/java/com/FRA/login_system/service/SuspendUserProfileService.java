@@ -3,25 +3,20 @@ package com.FRA.login_system.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.FRA.login_system.entity.User;
-import com.FRA.login_system.repository.UserRepository;
+import com.FRA.login_system.entity.UserProfile;
+import com.FRA.login_system.repository.UserProfileRepository;
 
 @Service
 public class SuspendUserProfileService {
-
     @Autowired
-    private UserRepository userRepository;
+    private UserProfileRepository userProfileRepository;
 
-    public User suspendProfile(int userID) {
-
-        User user = userRepository.findById(userID).orElse(null);
-
-        if (user == null) {
-            return null;
+    public UserProfile suspendProfile(String roleName) {
+        UserProfile profile = userProfileRepository.findById(roleName).orElse(null);
+        if (profile != null) {
+            profile.setSuspended(true); // Assuming you have this setter
+            return userProfileRepository.save(profile);
         }
-
-        user.suspendProfile();
-
-        return userRepository.save(user);
+        return null;
     }
 }

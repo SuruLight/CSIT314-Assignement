@@ -7,7 +7,7 @@
 
 <h2>Search User Profile</h2>
 
-<input type="text" id="criteria" placeholder="Enter username, name or email">
+<input type="text" id="criteria" placeholder="Enter Role or Description">
 <button onclick="enterSearchCriteria()">Search</button>
 
 <p id="message"></p>
@@ -15,13 +15,11 @@
 <table border="1">
     <thead>
         <tr>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <th>Profile Name</th>
             <th>Role</th>
+            <th>description</th>
             <th>Permissions</th>
+            <th>suspended</th>
         </tr>
     </thead>
     <tbody id="results"></tbody>
@@ -63,16 +61,17 @@ function displayResults(results) {
 
     document.getElementById("message").innerText = "";
 
-    results.forEach(user => {
+    results.forEach(profile => {
+        // This line creates a readable text for the 'suspended' boolean
+        const status = profile.suspended ? "SUSPENDED" : "Active";
+        
         table.innerHTML += `
             <tr>
-                <td>${user.id}</td>
-                <td>${user.username}</td>
-                <td>${user.fullName}</td>
-                <td>${user.email}</td>
-                <td>${user.phone}</td>
-                <td>${user.role}</td>
-                <td>${user.permissions}</td>
+                <td>${profile.profileName}</td>
+                <td>${profile.role}</td>
+                <td>${profile.description}</td>
+                <td>${profile.permissions}</td>
+                <td>${status}</td> 
             </tr>
         `;
     });

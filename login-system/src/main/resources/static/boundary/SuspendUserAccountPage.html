@@ -43,12 +43,17 @@ function unsuspendUser() {
 }
 
 function displayConfirm(data, isSuspended) {
+    const resultElement = document.getElementById("result");
+    
+    if (!data) {
+        resultElement.innerText = "Error: User ID not found.";
+        return;
+    }
+
     if (isSuspended) {
-        document.getElementById("result").innerText =
-            "User " + data.username + " has been suspended.";
+        resultElement.innerText = "User " + data.username + " has been suspended.";
     } else {
-        document.getElementById("result").innerText =
-            "User " + data.username + " has been unsuspended.";
+        resultElement.innerText = "User " + data.username + " has been unsuspended.";
     }
 }
 

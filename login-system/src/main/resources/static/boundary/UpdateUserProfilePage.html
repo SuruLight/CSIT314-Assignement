@@ -7,7 +7,7 @@
 
 <h2>Update User Profile</h2>
 
-<input type="text" id="profileName" placeholder="Enter username">
+<input type="text" id="profileName" placeholder="new name">
 <br>
 
 <select id="roleType">
@@ -32,49 +32,46 @@
 
 <script>
 function editProfile() {
+    // FIX: Use getElementById(...).value to get the actual text typed
     const profileName = document.getElementById("profileName").value;
     const roleType = document.getElementById("roleType").value;
-
-    const selectedPermissions =
-        document.querySelectorAll('input[type="checkbox"]:checked');
+    const selectedPermissions = document.querySelectorAll('input[type="checkbox"]:checked');
 
     let permissions = [];
-
     selectedPermissions.forEach(p => {
         permissions.push(p.value);
     });
-
     permissions = permissions.join(",");
 
     fetch("http://localhost:8080/api/admin/profiles/update", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            profileName: profileName,
-            roleType: roleType,
-            permissions: permissions
-        })
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        roleType: roleType,
+        profileName: profileName, 
+        permissions: permissions
     })
+})
     .then(response => response.json())
-    .then(userProfile => {
-        displayMessage(userProfile);
-    });
+    .then(data => {
+        displayMessage(data);
+    })
+    .catch(err => console.error("Error:", err));
 }
 
 function displayMessage(userProfile) {
-    if (userProfile == null) {
-        document.getElementById("result").innerText =
-            "Error updating profile. Please try again.";
+    // FIX: Check if the returned object is valid
+    if (!userProfile || !userProfile.role) {
+        document.getElementById("result").innerText = "Error updating profile.";
         return;
     }
 
+    // FIX: Use the correct field names from your UserProfile entity
     document.getElementById("result").innerText =
-        "Profile updated successfully. Username: " +
-        userProfile.username;
+        "Updated Role: " + userProfile.role + 
+        " | New Name: " + userProfile.profileName + 
+        " | Permissions: " + userProfile.permissions;
 }
-
 function goBack() {
     window.location.href = "dashboard.html";
 }

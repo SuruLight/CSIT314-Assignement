@@ -1,15 +1,9 @@
 package com.FRA.login_system.controller;
 
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.FRA.login_system.entity.User;
+import org.springframework.web.bind.annotation.*;
+import com.FRA.login_system.entity.UserProfile;
 import com.FRA.login_system.service.CreateUserProfileService;
 
 @RestController
@@ -21,12 +15,12 @@ public class CreateUserProfileController {
     private CreateUserProfileService createUserProfileService;
 
     @PostMapping("/create")
-    public User createProfile(@RequestBody Map<String, String> request) {
-
+    public UserProfile createProfile(@RequestBody Map<String, String> request) {
         String profileName = request.get("profileName");
         String roleType = request.get("roleType");
         String permissions = request.get("permissions");
+        String description = request.get("description"); // Get description from request
 
-        return createUserProfileService.createProfile(profileName, roleType, permissions);
+        return createUserProfileService.createProfile(profileName, roleType, permissions, description);
     }
 }

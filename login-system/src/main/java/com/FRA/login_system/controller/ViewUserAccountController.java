@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.FRA.login_system.entity.User;
+import com.FRA.login_system.entity.UserAccount;
 import com.FRA.login_system.service.ViewUserAccountService;
 
 @RestController
@@ -19,7 +19,7 @@ public class ViewUserAccountController {
     private ViewUserAccountService viewUserAccountService;
 
     @GetMapping("/view/{userID}")
-    public User getUser(@PathVariable int userID) {
+    public UserAccount getUser(@PathVariable int userID) {
         return viewUserAccountService.getUser(userID);
     }
 }

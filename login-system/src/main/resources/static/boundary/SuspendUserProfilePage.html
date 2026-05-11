@@ -7,23 +7,31 @@
 
 <h2>Suspend User Profile</h2>
 
-<input type="number" id="userID" placeholder="Enter User ID">
-<button onclick="selectProfile()">Suspend</button>
+<input type="text" id="roleName" placeholder="Enter Role Name (e.g. FR)">
+<button onclick="suspendRole()">Suspend Role</button>
 
 <p id="result"></p>
 
 <button onclick="goBack()">Back</button>
 
 <script>
-function selectProfile() {
-    const userID = document.getElementById("userID").value;
+function suspendRole() { // 👈 Match this to your button's onclick
+    const role = document.getElementById("roleName").value;
 
-    fetch("http://localhost:8080/api/admin/profiles/" + userID + "/suspend", {
+    fetch("http://localhost:8080/api/admin/profiles/" + role + "/suspend", {
         method: "PUT"
     })
     .then(response => response.json())
     .then(userProfile => {
-        displayMessage(userProfile);
+        if (userProfile && userProfile.role) {
+            document.getElementById("result").innerText = 
+                "Role " + userProfile.role + " has been suspended.";
+        } else {
+            document.getElementById("result").innerText = "Error: Role not found.";
+        }
+    })
+    .catch(error => {
+        document.getElementById("result").innerText = "System error.";
     });
 }
 

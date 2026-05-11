@@ -7,79 +7,67 @@
 
 <h2>Create User Profile</h2>
 
-<input type="text" id="profileName" placeholder="Profile name">
-<br>
+<label>Profile Full Name:</label><br>
+<input type="text" id="profileName" placeholder="e.g. System Administrator"><br><br>
 
-<select id="roleType">
-    <option value="USER_ADMIN">USER_ADMIN</option>
-    <option value="FR">FR</option>
-    <option value="DONEE">DONEE</option>
-    <option value="PLATFORM_MANAGEMENT">PLATFORM_MANAGEMENT</option>
-</select>
+<label>Role Code (Primary Key):</label><br>
+<input type="text" id="roleType" placeholder="e.g. SYS_ADMIN"><br><br>
+
+<label>Description:</label><br>
+<textarea id="description" placeholder="What does this role do?"></textarea><br>
 
 <p><b>Select Permissions:</b></p>
-
 <label><input type="checkbox" value="SEARCH_USER"> Search User</label><br>
 <label><input type="checkbox" value="VIEW_USER"> View User</label><br>
 <label><input type="checkbox" value="SUSPEND_USER"> Suspend User</label><br>
 <label><input type="checkbox" value="UPDATE_USER"> Update User</label><br>
-<label><input type="checkbox" value="CREATE_USER"> Create User</label><br>
+<label><input type="checkbox" value="CREATE_USER"> Create User</label><br><br>
 
 <button onclick="enterProfileDetails()">Create Profile</button>
-
 <p id="result"></p>
-
 <button onclick="goBack()">Back</button>
 
 <script>
 function enterProfileDetails() {
     const profileName = document.getElementById("profileName").value;
     const roleType = document.getElementById("roleType").value;
+    const description = document.getElementById("description").value;
 
-    const selectedPermissions =
-        document.querySelectorAll('input[type="checkbox"]:checked');
-
-    let permissions = [];
-
-    selectedPermissions.forEach(p => {
-        permissions.push(p.value);
-    });
-
-    permissions = permissions.join(",");
+    const selectedPermissions = document.querySelectorAll('input[type="checkbox"]:checked');
+    let permissions = Array.from(selectedPermissions).map(p => p.value).join(",");
 
     fetch("http://localhost:8080/api/admin/profiles/create", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             profileName: profileName,
             roleType: roleType,
-            permissions: permissions
+            permissions: permissions,
+            description: description
         })
     })
     .then(response => response.json())
     .then(userProfile => {
         displayMessage(userProfile);
+    })
+    .catch(err => {
+        document.getElementById("result").innerText = "Error: Role code might already exist.";
     });
 }
 
 function displayMessage(userProfile) {
-    if (userProfile == null) {
-        document.getElementById("result").innerText =
-            "Error creating profile. Please try again.";
+    if (!userProfile || !userProfile.role) {
+        document.getElementById("result").innerText = "Error creating profile.";
         return;
     }
-
-    document.getElementById("result").innerText =
-        "User profile created successfully. Username: " +
-        userProfile.username;
+    // Fixed to show 'role' instead of 'username'
+    document.getElementById("result").innerText = 
+        "User profile '" + userProfile.profileName + "' (Code: " + userProfile.role + ") created successfully.";
 }
 
 function goBack() {
     window.location.href = "dashboard.html";
 }
 </script>
-
 </body>
 </html>

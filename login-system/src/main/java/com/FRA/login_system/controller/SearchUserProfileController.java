@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.FRA.login_system.entity.User;
+import com.FRA.login_system.entity.UserProfile;
 import com.FRA.login_system.service.SearchUserProfileService;
 
 @RestController
@@ -21,7 +21,7 @@ public class SearchUserProfileController {
     private SearchUserProfileService searchUserProfileService;
 
     @GetMapping("/search")
-    public List<User> searchUser(@RequestParam String criteria) {
+    public List<UserProfile> searchUser(@RequestParam String criteria) {
         return searchUserProfileService.searchUser(criteria);
     }
 }

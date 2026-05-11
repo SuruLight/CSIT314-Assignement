@@ -7,7 +7,7 @@
 
 <h2>Search User Account</h2>
 
-<input type="text" id="keyword" placeholder="Enter username or name">
+<input type="text" id="keyword" placeholder="Enter username or Email">
 <button onclick="inputSearch()">Search</button>
 
 <p id="message"></p>
@@ -18,9 +18,9 @@
             <th>ID</th>
             <th>Username</th>
             <th>Role</th>
-            <th>Full Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Permissions</th>
         </tr>
     </thead>
 
@@ -60,17 +60,19 @@ function displayResults(userList) {
 
     userList.forEach(user => {
 
-        table.innerHTML += `
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.username}</td>
-                <td>${user.role}</td>
-                <td>${user.fullName}</td>
-                <td>${user.email}</td>
-                <td>${user.phone}</td>
-            </tr>
-        `;
-    });
+        const status = user.suspended ? "ACCOUNT SUSPENDED" : "Active";
+    table.innerHTML += `
+        <tr>
+            <td>${user.id}</td>
+            <td>${user.username}</td>
+            <td>${user.profile.role}</td> 
+            <td>${user.email}</td>
+            <td>${user.phone || 'N/A'}</td> 
+            <td>${user.permissions}</td>
+        </tr>
+            
+    `;
+});
 }
 
 function goBack() {

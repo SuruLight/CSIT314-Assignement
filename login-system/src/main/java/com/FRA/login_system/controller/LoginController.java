@@ -1,14 +1,9 @@
 package com.FRA.login_system.controller;
+
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.FRA.login_system.service.LoginService;
 
 @RestController
@@ -17,7 +12,7 @@ import com.FRA.login_system.service.LoginService;
 public class LoginController {
 
     @Autowired
-    private LoginService loginService; // Now using Service instead of Repository
+    private LoginService loginService;
 
     @PostMapping("/login")
     public Map<String, Object> validateLogin(@RequestBody Map<String, String> request) {
@@ -29,10 +24,10 @@ public class LoginController {
         String message = loginService.getLoginMessage(username, password, role);
 
         Map<String, Object> response = new HashMap<>();
-
         response.put("success", success);
         response.put("message", message);
-        response.put("role", loginService.getUserRole(username, password, role));
+        // Fetch the actual role from the DB to send back to the frontend
+        response.put("role", loginService.getUserRole(username));
 
         return response;
     }

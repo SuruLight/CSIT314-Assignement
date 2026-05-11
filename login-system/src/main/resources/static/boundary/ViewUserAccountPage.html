@@ -13,38 +13,12 @@
 <p id="result"></p>
 
 <table border="1" id="userTable" style="display:none;">
-    <tr>
-        <th>ID</th>
-        <td id="id"></td>
-    </tr>
-    <tr>
-        <th>Username</th>
-        <td id="username"></td>
-    </tr>
-    <tr>
-        <th>Full Name</th>
-        <td id="fullName"></td>
-    </tr>
-    <tr>
-        <th>Email</th>
-        <td id="email"></td>
-    </tr>
-    <tr>
-        <th>Phone</th>
-        <td id="phone"></td>
-    </tr>
-    <tr>
-        <th>Role</th>
-        <td id="role"></td>
-    </tr>
-    <tr>
-        <th>Permissions</th>
-        <td id="permissions"></td>
-    </tr>
-    <tr>
-        <th>Suspended</th>
-        <td id="suspended"></td>
-    </tr>
+    <tr><th>ID</th><td id="id"></td></tr>
+    <tr><th>Username</th><td id="username"></td></tr>
+    <tr><th>Email</th><td id="email"></td></tr>
+    <tr><th>Role</th><td id="role"></td></tr>
+    <tr><th>Permissions</th><td id="permissions"></td></tr>
+    <tr><th>Suspended</th><td id="suspended"></td></tr>
 </table>
 
 <br>
@@ -65,25 +39,25 @@ function selectUser() {
     });
 }
 
+
 function displayUser(userAccount) {
-    if (userAccount == null) {
+    if (!userAccount) {
         document.getElementById("result").innerText = "User not found.";
         document.getElementById("userTable").style.display = "none";
         return;
     }
-
     document.getElementById("result").innerText = "";
-
     document.getElementById("userTable").style.display = "table";
+    
+    // Map these to the EXACT field names in your Java UserAccount.java entity
     document.getElementById("id").innerText = userAccount.id;
     document.getElementById("username").innerText = userAccount.username;
-    document.getElementById("fullName").innerText = userAccount.fullName;
     document.getElementById("email").innerText = userAccount.email;
-    document.getElementById("phone").innerText = userAccount.phone;
     document.getElementById("role").innerText = userAccount.role;
     document.getElementById("permissions").innerText = userAccount.permissions;
     document.getElementById("suspended").innerText = userAccount.suspended;
 }
+
 
 function goBack() {
     window.location.href = "dashboard.html";

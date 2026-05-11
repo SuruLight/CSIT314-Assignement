@@ -3,27 +3,27 @@ package com.FRA.login_system.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.FRA.login_system.entity.User;
-import com.FRA.login_system.repository.UserRepository;
+import com.FRA.login_system.entity.UserAccount;
+import com.FRA.login_system.repository.UserAccountRepository;
 
 @Service
 public class SuspendUserAccountService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserAccountRepository userAccountRepository;
 
-    public User updateStatus(boolean suspensionState, int userID) {
-        User user = userRepository.findById(userID).orElse(null);
+    public UserAccount updateStatus(boolean suspensionState, int userID) {
+        UserAccount account = userAccountRepository.findById(userID).orElse(null);
 
-        if (user == null) {
+        if (account == null) {
             return null;
         }
 
-        user.saveStatusDB(suspensionState);
-        return userRepository.save(user);
+        account.setSuspended(suspensionState);
+        return userAccountRepository.save(account);
     }
 
-    public User fetchUserDetails(int userID) {
-        return userRepository.findById(userID).orElse(null);
+    public UserAccount fetchUserDetails(int userID) {
+        return userAccountRepository.findById(userID).orElse(null);
     }
 }

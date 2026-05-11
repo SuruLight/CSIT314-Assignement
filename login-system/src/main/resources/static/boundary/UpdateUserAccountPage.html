@@ -63,9 +63,10 @@ function displayUserAccount(userAccount) {
         return;
     }
 
+    
     document.getElementById("result").innerText =
         "Updated user: " + userAccount.username +
-        " | Role: " + userAccount.role +
+        " | Role: " + userAccount.profile.role + 
         " | Permissions: " + userAccount.permissions;
 }
 

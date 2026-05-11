@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.FRA.login_system.entity.User;
+
+import com.FRA.login_system.entity.UserProfile;
 import com.FRA.login_system.service.SuspendUserProfileService;
 
 @RestController
@@ -18,8 +19,8 @@ public class SuspendUserProfileController {
     @Autowired
     private SuspendUserProfileService suspendUserProfileService;
 
-    @PutMapping("/{userID}/suspend")
-    public User suspendProfile(@PathVariable int userID) {
-        return suspendUserProfileService.suspendProfile(userID);
+    @PutMapping("/{role}/suspend")
+    public UserProfile suspendProfile(@PathVariable String role) {
+        return suspendUserProfileService.suspendProfile(role);
     }
 }

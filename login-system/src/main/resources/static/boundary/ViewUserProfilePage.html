@@ -6,21 +6,17 @@
 <body>
 
 <h2>View User Profiles</h2>
-
 <button onclick="requestUserProfiles()">View User Profiles</button>
-
 <p id="message"></p>
 
 <table border="1">
     <thead>
         <tr>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <th>Profile Name</th>
             <th>Role</th>
+            <th>Description</th>
             <th>Permissions</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody id="userProfiles"></tbody>
@@ -32,35 +28,42 @@
 <script>
 function requestUserProfiles() {
     fetch("http://localhost:8080/api/admin/user-profiles/all")
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) throw new Error("Failed to fetch");
+        return response.json();
+    })
     .then(userProfileList => {
         displayUserProfiles(userProfileList);
+    })
+    .catch(err => {
+        document.getElementById("message").innerText = "Error: " + err.message;
     });
 }
 
 function displayUserProfiles(userProfileList) {
-    const table = document.getElementById("userProfiles");
+    const tableBody = document.getElementById("userProfiles");
     const message = document.getElementById("message");
 
-    table.innerHTML = "";
+    tableBody.innerHTML = "";
 
-    if (userProfileList.length === 0) {
+    if (!userProfileList || userProfileList.length === 0) {
         message.innerText = "No user profiles found.";
         return;
     }
 
     message.innerText = "";
 
-    userProfileList.forEach(user => {
-        table.innerHTML += `
+    userProfileList.forEach(profile => {
+        // Use 'profile.suspended' (matches Java boolean field)
+        const status = profile.suspended ? "SUSPENDED" : "Active";
+        
+        tableBody.innerHTML += `
             <tr>
-                <td>${user.id}</td>
-                <td>${user.username}</td>
-                <td>${user.fullName}</td>
-                <td>${user.email}</td>
-                <td>${user.phone}</td>
-                <td>${user.role}</td>
-                <td>${user.permissions}</td>
+                <td>${profile.profileName || "N/A"}</td>
+                <td>${profile.role}</td>
+                <td>${profile.description || "No description"}</td>
+                <td>${profile.permissions}</td>
+                <td>${status}</td> 
             </tr>
         `;
     });
@@ -70,6 +73,5 @@ function goBack() {
     window.location.href = "dashboard.html";
 }
 </script>
-
 </body>
 </html>

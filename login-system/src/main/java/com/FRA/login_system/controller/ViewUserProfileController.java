@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.FRA.login_system.entity.User;
+import com.FRA.login_system.entity.UserProfile;
 import com.FRA.login_system.service.ViewUserProfileService;
 
 @RestController
@@ -20,7 +20,7 @@ public class ViewUserProfileController {
     private ViewUserProfileService viewUserProfileService;
 
     @GetMapping("/all")
-    public List<User> getAllUserProfiles() {
+    public List<UserProfile> getAllUserProfiles() {
         return viewUserProfileService.getAllUserProfiles();
     }
 }
