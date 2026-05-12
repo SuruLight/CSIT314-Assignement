@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.FRA.login_system.entity.UserAccount;
 import com.FRA.login_system.entity.UserProfile;
-import com.FRA.login_system.service.UpdateUserAccountService;
-import com.FRA.login_system.service.UpdateUserProfileService;
+import com.FRA.login_system.service.UserAccountService.UpdateUserAccountService;
+import com.FRA.login_system.service.UserProfileService.UpdateUserProfileService;
 
 @SpringBootTest
 public class UpdateLogicTest {

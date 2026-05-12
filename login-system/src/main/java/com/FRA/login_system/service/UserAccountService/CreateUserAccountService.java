@@ -1,4 +1,4 @@
-package com.FRA.login_system.service;
+package com.FRA.login_system.service.UserAccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.FRA.login_system.entity.User;
 import com.FRA.login_system.entity.UserAccount;
 import com.FRA.login_system.entity.UserProfile;
-import com.FRA.login_system.repository.UserRepository;
 import com.FRA.login_system.repository.UserAccountRepository;
-import com.FRA.login_system.repository.UserProfileRepository; // Need this to find the role
+import com.FRA.login_system.repository.UserProfileRepository;
+import com.FRA.login_system.repository.UserRepository; // Need this to find the role
 
 @Service
 public class CreateUserAccountService {

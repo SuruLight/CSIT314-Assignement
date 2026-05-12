@@ -1,9 +1,15 @@
-package com.FRA.login_system.controller;
+package com.FRA.login_system.controller.UserAccountController;
 
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import com.FRA.login_system.service.CreateUserAccountService;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.FRA.login_system.service.UserAccountService.CreateUserAccountService;
 
 @RestController
 @RequestMapping("/api/admin/users")

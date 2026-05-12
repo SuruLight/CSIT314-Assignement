@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 import com.FRA.login_system.entity.UserProfile;
-import com.FRA.login_system.service.ViewUserProfileService;
+import com.FRA.login_system.service.UserProfileService.ViewUserProfileService;
 
 @SpringBootTest
 public class ViewUserProfileTest {

@@ -1,7 +1,8 @@
-package com.FRA.login_system.service;
+package com.FRA.login_system.service.UserProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.FRA.login_system.entity.UserProfile;
 import com.FRA.login_system.repository.UserProfileRepository;
 

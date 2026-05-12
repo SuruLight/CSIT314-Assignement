@@ -1,4 +1,4 @@
-package com.FRA.login_system.controller;
+package com.FRA.login_system.controller.UserAccountController;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.FRA.login_system.entity.UserAccount;
-import com.FRA.login_system.service.SearchUserAccountService;
+import com.FRA.login_system.service.UserAccountService.SearchUserAccountService;
 
 @RestController
 @RequestMapping("/api/admin/users")

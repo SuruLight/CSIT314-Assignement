@@ -1,4 +1,4 @@
-package com.FRA.login_system.service;
+package com.FRA.login_system.service.UserAccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

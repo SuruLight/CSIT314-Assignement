@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 import com.FRA.login_system.entity.UserAccount;
-import com.FRA.login_system.service.ViewUserAccountService;
+import com.FRA.login_system.service.UserAccountService.ViewUserAccountService;
 
 @SpringBootTest
 public class ViewUserAccountTest {

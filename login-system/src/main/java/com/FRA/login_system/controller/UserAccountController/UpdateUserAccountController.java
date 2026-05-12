@@ -1,4 +1,4 @@
-package com.FRA.login_system.controller;
+package com.FRA.login_system.controller.UserAccountController;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.FRA.login_system.entity.UserAccount;
-import com.FRA.login_system.service.UpdateUserAccountService;
+import com.FRA.login_system.service.UserAccountService.UpdateUserAccountService;
 
 @RestController
 @RequestMapping("/api/admin/users")

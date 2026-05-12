@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.FRA.login_system.entity.UserAccount;
 import com.FRA.login_system.entity.UserProfile;
-import com.FRA.login_system.service.SuspendUserAccountService;
-import com.FRA.login_system.service.SuspendUserProfileService;
+import com.FRA.login_system.service.UserAccountService.SuspendUserAccountService;
+import com.FRA.login_system.service.UserProfileService.SuspendUserProfileService;
 
 @SpringBootTest
 public class StatusLogicTest {

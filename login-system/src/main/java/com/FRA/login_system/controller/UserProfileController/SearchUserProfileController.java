@@ -1,4 +1,4 @@
-package com.FRA.login_system.controller;
+package com.FRA.login_system.controller.UserProfileController;
 
 import java.util.List;
 
@@ -6,21 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.FRA.login_system.entity.UserProfile;
-import com.FRA.login_system.service.ViewUserProfileService;
+import com.FRA.login_system.service.UserProfileService.SearchUserProfileService;
 
 @RestController
 @RequestMapping("/api/admin/user-profiles")
 @CrossOrigin(origins = "*")
-public class ViewUserProfileController {
+public class SearchUserProfileController {
 
     @Autowired
-    private ViewUserProfileService viewUserProfileService;
+    private SearchUserProfileService searchUserProfileService;
 
-    @GetMapping("/all")
-    public List<UserProfile> getAllUserProfiles() {
-        return viewUserProfileService.getAllUserProfiles();
+    @GetMapping("/search")
+    public List<UserProfile> searchUser(@RequestParam String criteria) {
+        return searchUserProfileService.searchUser(criteria);
     }
 }

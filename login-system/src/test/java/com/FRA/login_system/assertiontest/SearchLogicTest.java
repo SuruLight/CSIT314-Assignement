@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.FRA.login_system.entity.UserAccount;
 import com.FRA.login_system.entity.UserProfile;
-import com.FRA.login_system.service.SearchUserAccountService;
-import com.FRA.login_system.service.SearchUserProfileService;
+import com.FRA.login_system.service.UserAccountService.SearchUserAccountService;
+import com.FRA.login_system.service.UserProfileService.SearchUserProfileService;
+
 import java.util.List;
 
 @SpringBootTest
