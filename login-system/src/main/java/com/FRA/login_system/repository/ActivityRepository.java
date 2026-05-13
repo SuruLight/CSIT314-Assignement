@@ -15,4 +15,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
     );
 
     List<Activity> findByCreatedDate(LocalDate createdDate);
+    List<Activity> findByCreatedDateBetween(LocalDate startDate, LocalDate endDate);
 }
