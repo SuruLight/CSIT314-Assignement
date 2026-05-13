@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Daily Report</title>
+</head>
+<body>
+
+<h2>Generate Daily Report</h2>
+
+<input type="date" id="reportDate">
+<button onclick="selectDate()">Generate Report</button>
+
+<p id="message"></p>
+
+<table border="1" id="reportTable" style="display:none;">
+    <tr>
+        <th>Report Date</th>
+        <td id="date"></td>
+    </tr>
+    <tr>
+        <th>Total Activities</th>
+        <td id="totalActivities"></td>
+    </tr>
+    <tr>
+        <th>Total Target Amount</th>
+        <td id="totalTargetAmount"></td>
+    </tr>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function selectDate() {
+    const reportDate = document.getElementById("reportDate").value;
+
+    fetch("http://localhost:8080/api/management/reports/daily", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            reportDate: reportDate
+        })
+    })
+    .then(response => response.json())
+    .then(dailyReport => {
+        displayReport(dailyReport);
+    });
+}
+
+function displayReport(dailyReport) {
+    if (dailyReport == null) {
+        document.getElementById("message").innerText =
+            "No activity data found for the selected date. Please try again.";
+        document.getElementById("reportTable").style.display = "none";
+        return;
+    }
+
+    document.getElementById("message").innerText = "";
+    document.getElementById("reportTable").style.display = "table";
+
+    document.getElementById("date").innerText = dailyReport.reportDate;
+    document.getElementById("totalActivities").innerText = dailyReport.totalActivities;
+    document.getElementById("totalTargetAmount").innerText = dailyReport.totalTargetAmount;
+}
+
+function goBack() {
+    window.location.href = "PlatformManagementDashboard.html";
+}
+</script>
+
+</body>
+</html>

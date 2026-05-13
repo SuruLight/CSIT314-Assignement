@@ -1,5 +1,7 @@
 package com.FRA.login_system.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +23,9 @@ public class Activity {
     private String category;
     private String status;
 
+    // For Report (platform management)
+    private LocalDate createdDate;
+
     public Activity() {}
 
     public int getActivityId() {return activityId;}
@@ -29,18 +34,22 @@ public class Activity {
     public double getTargetAmount() {return targetAmount;}
     public String getCategory() {return category;}
     public String getStatus() {return status;}
+    public LocalDate getCreatedDate() {return createdDate;}
 
     public void setActivityName(String activityName) {this.activityName = activityName;}
     public void setDescription(String description) {this.description = description;}
     public void setTargetAmount(double targetAmount) {this.targetAmount = targetAmount;}
     public void setCategory(String category) {this.category = category;}
     public void setStatus(String status) {this.status = status;}
+    public void setCreatedDate(LocalDate createdDate) {this.createdDate = createdDate;}
 
     // CreatedActivity method
     public String createActivity(String activityName, String description,double targetAmount) {
         this.activityName = activityName;
         this.description = description;
         this.targetAmount = targetAmount;
+        this.createdDate = LocalDate.now();
+        this.status = "Active";
 
         return "Fund raising activity created successfully.";
     }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search FSA Category</title>
+</head>
+<body>
+
+<h2>Search FSA Category</h2>
+
+<input type="text" id="keyword" placeholder="Enter keyword">
+<button onclick="inputSearch()">Search</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>Category Name</th>
+            <th>Category Description</th>
+        </tr>
+    </thead>
+    <tbody id="categoryTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function inputSearch() {
+    const keyword = document.getElementById("keyword").value;
+
+    fetch("http://localhost:8080/api/management/fsa-category/search?keyword=" + keyword)
+    .then(response => response.json())
+    .then(FSACategoryList => {
+        displayResults(FSACategoryList);
+    });
+}
+
+function displayResults(FSACategoryList) {
+    const table = document.getElementById("categoryTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (FSACategoryList.length === 0) {
+        message.innerText =
+            "No FSA categories found. Please try a different keyword.";
+        return;
+    }
+
+    message.innerText = "";
+
+    FSACategoryList.forEach(category => {
+        table.innerHTML += `
+            <tr>
+                <td>${category.catId}</td>
+                <td>${category.catName}</td>
+                <td>${category.catDesc}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "PlatformManagementDashboard.html";
+}
+</script>
+
+</body>
+</html>

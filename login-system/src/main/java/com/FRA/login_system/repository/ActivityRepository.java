@@ -1,5 +1,6 @@
 package com.FRA.login_system.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
         String category,
         String status
     );
+
+    List<Activity> findByCreatedDate(LocalDate createdDate);
 }

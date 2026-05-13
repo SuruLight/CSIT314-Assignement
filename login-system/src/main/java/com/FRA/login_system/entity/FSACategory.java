@@ -27,9 +27,7 @@ public class FSACategory {
     }
 
     public String getFSACategories() {
-        return "Category ID: " + catId +
-            ", Name: " + catName +
-            ", Description: " + catDesc;
+        return "Category ID: " + catId + ", Name: " + catName + ", Description: " + catDesc;
     }
 
     public String updateFSACategory(int categoryID, String categoryName, String categoryDescription) {
@@ -38,6 +36,14 @@ public class FSACategory {
         this.catDesc = categoryDescription;
 
         return "FSA Category updated successfully.";
+    }
+
+    public String deleteFSACategory(int categoryID) {
+        return "FSA Category deleted successfully.";
+    }
+
+    public String searchFSACategory(String keyword) {
+        return "Category ID: " + catId + ", Name: " + catName + ", Description: " + catDesc;
     }
 
     public int getCatId() {
