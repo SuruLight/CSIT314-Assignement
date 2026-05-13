@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View FSA Categories</title>
+</head>
+<body>
+
+<h2>View FSA Categories</h2>
+
+<button onclick="requestCategoryList()">View Categories</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>Category Name</th>
+            <th>Category Description</th>
+        </tr>
+    </thead>
+    <tbody id="categoryTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function requestCategoryList() {
+    fetch("http://localhost:8080/api/management/fsa-category/view")
+    .then(response => response.json())
+    .then(FSACategoryList => {
+        displayCategoryList(FSACategoryList);
+    });
+}
+
+function displayCategoryList(FSACategoryList) {
+    const table = document.getElementById("categoryTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (FSACategoryList.length === 0) {
+        message.innerText = "No FSA categories found. Please try again.";
+        return;
+    }
+
+    message.innerText = "";
+
+    FSACategoryList.forEach(category => {
+        table.innerHTML += `
+            <tr>
+                <td>${category.catId}</td>
+                <td>${category.catName}</td>
+                <td>${category.catDesc}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "PlatformManagementDashboard.html";
+}
+</script>
+
+</body>
+</html>

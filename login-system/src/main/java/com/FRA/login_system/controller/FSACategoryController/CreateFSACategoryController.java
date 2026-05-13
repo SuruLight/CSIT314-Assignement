@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.FRA.login_system.service.FSACategoryService.CreateFSACatService;
+import com.FRA.login_system.service.FSACategoryService.CreateFSACategoryService;
 
 @RestController
 @RequestMapping("/api/management/fsa-category")
 @CrossOrigin(origins = "*")
-public class CreateFSACatController {
+public class CreateFSACategoryController {
 
     @Autowired
-    private CreateFSACatService createFSACatService;
+    private CreateFSACategoryService createFSACatService;
 
     @PostMapping("/create")
     public String createFSACat(@RequestBody Map<String, String> request) {

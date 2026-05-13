@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Save Listing</title>
+</head>
+<body>
+
+<h2>Save Listing</h2>
+
+<input type="number" id="listingID" placeholder="Enter Listing ID">
+<button onclick="saveListing()">Save Listing</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function saveListing() {
+    const listingID = document.getElementById("listingID").value;
+
+    fetch("http://localhost:8080/api/donee/saved-listings/save/" + listingID, {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(saveResult => {
+        displayMessage(saveResult);
+    });
+}
+
+function displayMessage(saveResult) {
+    document.getElementById("result").innerText = saveResult;
+}
+
+function goBack() {
+    window.location.href = "DoneeDashboard.html";
+}
+</script>
+
+</body>
+</html>

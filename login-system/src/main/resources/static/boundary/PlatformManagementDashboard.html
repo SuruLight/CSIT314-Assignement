@@ -13,7 +13,9 @@
 
 <h3>Functions</h3>
 
-<button onclick="goToCreateFSACat()">Create FSA Category</button>
+<button onclick="goToViewFSACategory()">View FSA Categories</button><br><br>
+<button onclick="goToCreateFSACategory()">Create FSA Category</button><br><br>
+<button onclick="goToUpdateFSACategory()">Update FSA Category</button>
 <br><br>
 <br><br>
 
@@ -31,8 +33,18 @@ document.getElementById("welcomeMsg").innerText =
     "Welcome, " + username;
 
 // Go to create FSA category page
-function goToCreateFSACat() {
-    window.location.href = "CreateFSACatPage.html";
+function goToCreateFSACategory() {
+    window.location.href = "CreateFSACategoryPage.html";
+}
+
+// Go to view FSA category page
+function goToViewFSACategory() {
+    window.location.href = "ViewFSACategoryPage.html";
+}
+
+// Go to update FSA category page
+function goToUpdateFSACategory() {
+    window.location.href = "UpdateFSACategoryPage.html";
 }
 
 // Go to logout page

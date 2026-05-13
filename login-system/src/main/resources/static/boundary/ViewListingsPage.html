@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Listings</title>
+</head>
+<body>
+
+<h2>View Listings</h2>
+
+<button onclick="selectViewListings()">View Listings</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Listing ID</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Target Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="listingTable"></tbody>
+</table>
+
+<p id="details"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function selectViewListings() {
+    fetch("http://localhost:8080/api/donee/listings")
+    .then(response => response.json())
+    .then(list => {
+        displayListing(list);
+    });
+}
+
+function displayListing(list) {
+    const table = document.getElementById("listingTable");
+    table.innerHTML = "";
+
+    if (list.length === 0) {
+        document.getElementById("message").innerText = "No fundraising campaigns are currently available.";
+        return;
+    }
+
+    document.getElementById("message").innerText = "";
+
+    list.forEach(listing => {
+        table.innerHTML += `
+            <tr>
+                <td>${listing.listingID}</td>
+                <td>${listing.title}</td>
+                <td>${listing.category}</td>
+                <td>${listing.targetAmount}</td>
+                <td>${listing.status}</td>
+                <td><button onclick="selectListing(${listing.listingID})">View Details</button></td>
+            </tr>
+        `;
+    });
+}
+
+function selectListing(listingID) {
+    fetch("http://localhost:8080/api/donee/listings/" + listingID)
+    .then(response => response.text())
+    .then(listingDetails => {
+        displayCampaignDetails(listingDetails);
+    });
+}
+
+function displayCampaignDetails(listingDetails) {
+    document.getElementById("details").innerText = listingDetails;
+}
+
+function goBack() {
+    window.location.href = "DoneeDashboard.html";
+}
+</script>
+
+</body>
+</html>

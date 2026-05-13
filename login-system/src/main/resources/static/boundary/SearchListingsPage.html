@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Listings</title>
+</head>
+<body>
+
+<h2>Search Listings</h2>
+
+<input type="text" id="keyword" placeholder="Enter keyword, cause or location">
+<button onclick="enterKeyword()">Search</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Listing ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Target Amount</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="listingTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function enterKeyword() {
+    const keyword = document.getElementById("keyword").value;
+
+    fetch("http://localhost:8080/api/donee/listings/search?keyword=" + keyword)
+    .then(response => response.json())
+    .then(searchResults => {
+        displaySearchResults(searchResults);
+    });
+}
+
+function displaySearchResults(searchResults) {
+    const table = document.getElementById("listingTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (searchResults.length === 0) {
+        message.innerText = "No matching fundraising campaigns found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    searchResults.forEach(listing => {
+        table.innerHTML += `
+            <tr>
+                <td>${listing.listingID}</td>
+                <td>${listing.title}</td>
+                <td>${listing.description}</td>
+                <td>${listing.category}</td>
+                <td>${listing.targetAmount}</td>
+                <td>${listing.status}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "DoneeDashboard.html";
+}
+</script>
+
+</body>
+</html>

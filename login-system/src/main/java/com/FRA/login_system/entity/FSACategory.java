@@ -26,6 +26,20 @@ public class FSACategory {
         return "FSA Category created successfully.";
     }
 
+    public String getFSACategories() {
+        return "Category ID: " + catId +
+            ", Name: " + catName +
+            ", Description: " + catDesc;
+    }
+
+    public String updateFSACategory(int categoryID, String categoryName, String categoryDescription) {
+
+        this.catName = categoryName;
+        this.catDesc = categoryDescription;
+
+        return "FSA Category updated successfully.";
+    }
+
     public int getCatId() {
         return catId;
     }

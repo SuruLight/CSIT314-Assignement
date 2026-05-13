@@ -7,7 +7,7 @@ import com.FRA.login_system.entity.FSACategory;
 import com.FRA.login_system.repository.FSACategoryRepository;
 
 @Service
-public class CreateFSACatService {
+public class CreateFSACategoryService {
 
     @Autowired
     private FSACategoryRepository fsaCategoryRepository;

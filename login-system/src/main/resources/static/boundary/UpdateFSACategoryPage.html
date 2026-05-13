@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update FSA Category</title>
+</head>
+<body>
+
+<h2>Update FSA Category</h2>
+
+<input type="number" id="categoryID" placeholder="Category ID"><br>
+<input type="text" id="categoryName" placeholder="New Category Name"><br>
+<input type="text" id="categoryDescription" placeholder="New Category Description"><br>
+
+<button onclick="enterUpdatedDetails()">Save</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function enterUpdatedDetails() {
+    const categoryID = document.getElementById("categoryID").value;
+    const categoryName = document.getElementById("categoryName").value;
+    const categoryDescription = document.getElementById("categoryDescription").value;
+
+    fetch("http://localhost:8080/api/management/fsa-category/update", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            categoryID: categoryID,
+            categoryName: categoryName,
+            categoryDescription: categoryDescription
+        })
+    })
+    .then(response => response.text())
+    .then(result => {
+        displayMessage(result);
+    });
+}
+
+function displayMessage(result) {
+    document.getElementById("result").innerText = result;
+}
+
+function goBack() {
+    window.location.href = "PlatformManagementDashboard.html";
+}
+</script>
+
+</body>
+</html>
