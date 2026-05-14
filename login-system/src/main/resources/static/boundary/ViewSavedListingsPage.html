@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Saved Listings</title>
+</head>
+<body>
+
+<h2>View Saved Listings</h2>
+
+<button onclick="requestSavedListings()">View Saved Listings</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Saved ID</th>
+            <th>Listing ID</th>
+            <th>Saved At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="savedListingsTable"></tbody>
+</table>
+
+<p id="details"></p>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function requestSavedListings() {
+    fetch("http://localhost:8080/api/donee/saved-listings")
+    .then(response => response.json())
+    .then(savedListings => {
+        displaySavedListings(savedListings);
+    });
+}
+
+function displaySavedListings(savedListings) {
+    const table = document.getElementById("savedListingsTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (savedListings.length === 0) {
+        message.innerText = "You have no saved listings.";
+        return;
+    }
+
+    message.innerText = "";
+
+    savedListings.forEach(saved => {
+        table.innerHTML += `
+            <tr>
+                <td>${saved.savedId}</td>
+                <td>${saved.listingID}</td>
+                <td>${saved.savedAt}</td>
+                <td>
+                    <button onclick="selectListing(${saved.listingID})">
+                        View Details
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function selectListing(listingID) {
+    fetch("http://localhost:8080/api/donee/saved-listings/" + listingID)
+    .then(response => response.text())
+    .then(listingDetails => {
+        displayListingDetails(listingDetails);
+    });
+}
+
+function displayListingDetails(listingDetails) {
+    document.getElementById("details").innerText = listingDetails;
+}
+
+function goBack() {
+    window.location.href = "DoneeDashboard.html";
+}
+</script>
+
+</body>
+</html>

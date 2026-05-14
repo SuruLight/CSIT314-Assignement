@@ -37,6 +37,10 @@ public class SavedListing {
         return "Listing saved successfully.";
     }
 
+    public String getListingDetails(int listingID) {
+        return "Saved Listing ID: " + savedId + ", Listing ID: " + listingID + ", Saved At: " + savedAt;
+    }
+
     public int getSavedId() {
         return savedId;
     }
