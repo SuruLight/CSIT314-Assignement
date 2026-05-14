@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Monthly Report</title>
+</head>
+<body>
+
+<h2>Generate Monthly Report</h2>
+
+<input type="number" id="month" placeholder="Month e.g. 5">
+<br>
+<input type="number" id="year" placeholder="Year e.g. 2026">
+<br>
+
+<button onclick="selectMonthYear()">Generate Report</button>
+
+<p id="message"></p>
+
+<table border="1" id="reportTable" style="display:none;">
+    <tr>
+        <th>Month</th>
+        <td id="reportMonth"></td>
+    </tr>
+    <tr>
+        <th>Year</th>
+        <td id="reportYear"></td>
+    </tr>
+    <tr>
+        <th>Total Activities</th>
+        <td id="totalActivities"></td>
+    </tr>
+    <tr>
+        <th>Total Target Amount</th>
+        <td id="totalTargetAmount"></td>
+    </tr>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function selectMonthYear() {
+    const month = document.getElementById("month").value;
+    const year = document.getElementById("year").value;
+
+    fetch("http://localhost:8080/api/management/reports/monthly", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            month: month,
+            year: year
+        })
+    })
+    .then(response => response.json())
+    .then(monthlyReport => {
+        displayReport(monthlyReport);
+    });
+}
+
+function displayReport(monthlyReport) {
+    if (monthlyReport == null) {
+        document.getElementById("message").innerText =
+            "No activity data found for the selected month. Please try again.";
+        document.getElementById("reportTable").style.display = "none";
+        return;
+    }
+
+    document.getElementById("message").innerText = "";
+    document.getElementById("reportTable").style.display = "table";
+
+    document.getElementById("reportMonth").innerText = monthlyReport.reportMonth;
+    document.getElementById("reportYear").innerText = monthlyReport.reportYear;
+    document.getElementById("totalActivities").innerText = monthlyReport.totalActivities;
+    document.getElementById("totalTargetAmount").innerText = monthlyReport.totalTargetAmount;
+}
+
+function goBack() {
+    window.location.href = "PlatformManagementDashboard.html";
+}
+</script>
+
+</body>
+</html>
