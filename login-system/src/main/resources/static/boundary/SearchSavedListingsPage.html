@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Saved Listings</title>
+</head>
+<body>
+
+<h2>Search Saved Listings</h2>
+
+<input type="text" id="keyword" placeholder="Enter Listing ID">
+<button onclick="enterKeyword()">Search</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Saved ID</th>
+            <th>Listing ID</th>
+            <th>Saved At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="savedListingsTable"></tbody>
+</table>
+
+<p id="details"></p>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function enterKeyword() {
+    const keyword = document.getElementById("keyword").value;
+
+    fetch("http://localhost:8080/api/donee/saved-listings/search?keyword=" + keyword)
+    .then(response => response.json())
+    .then(searchResults => {
+        displaySearchResults(searchResults);
+    });
+}
+
+function displaySearchResults(searchResults) {
+    const table = document.getElementById("savedListingsTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+    document.getElementById("details").innerText = "";
+
+    if (searchResults.length === 0) {
+        message.innerText = "No matching saved campaigns found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    searchResults.forEach(saved => {
+        table.innerHTML += `
+            <tr>
+                <td>${saved.savedId}</td>
+                <td>${saved.listingID}</td>
+                <td>${saved.savedAt}</td>
+                <td>
+                    <button onclick="selectListing(${saved.listingID})">
+                        View Details
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function selectListing(listingID) {
+    fetch("http://localhost:8080/api/donee/saved-listings/search/details/" + listingID)
+    .then(response => response.text())
+    .then(listingDetails => {
+        displayListingDetails(listingDetails);
+    });
+}
+
+function displayListingDetails(listingDetails) {
+    document.getElementById("details").innerText = listingDetails;
+}
+
+function goBack() {
+    window.location.href = "DoneeDashboard.html";
+}
+</script>
+
+</body>
+</html>

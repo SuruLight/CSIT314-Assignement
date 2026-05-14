@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View FRA List</title>
+</head>
+<body>
+
+<h2>View FRA List</h2>
+
+<button onclick="viewAllFRA()">All FRA</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>FRA ID</th>
+            <th>FRA Name</th>
+            <th>Total Views</th>
+        </tr>
+    </thead>
+    <tbody id="fraTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function viewAllFRA() {
+    fetch("http://localhost:8080/api/fr/fra/all")
+    .then(response => response.json())
+    .then(FRAList => {
+        displayFRAList(FRAList);
+    });
+}
+
+function displayFRAList(FRAList) {
+    const table = document.getElementById("fraTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (FRAList.length === 0) {
+        message.innerText = "No FRA found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    FRAList.forEach(fra => {
+        table.innerHTML += `
+            <tr>
+                <td>${fra.fraId}</td>
+                <td>${fra.fraName}</td>
+                <td>${fra.totalViews}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>

@@ -14,8 +14,7 @@ public class SaveListingsService {
 
     public String saveListing(int listingID) {
 
-        SavedListing existingSavedListing =
-            savedListingRepository.findByListingID(listingID);
+        SavedListing existingSavedListing = savedListingRepository.findByListingID(listingID);
 
         if (existingSavedListing != null) {
             return existingSavedListing.checkSavedStatus(listingID);
