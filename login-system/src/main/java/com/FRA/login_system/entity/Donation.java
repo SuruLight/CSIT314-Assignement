@@ -33,6 +33,11 @@ public class Donation {
     public String getCategory() { return category; }
     public double getTargetAmount() { return targetAmount; }
 
+    public void setDonationId(int donationId) { this.donationId = donationId; }
+    public void setDoneeName(String doneeName) { this.doneeName = doneeName; }
+    public void setFraName(String fraName) { this.fraName = fraName; }
+    public void setDonationAmount(double donationAmount) { this.donationAmount = donationAmount; }
+    public void setDonationDate(LocalDateTime donationDate) { this.donationDate = donationDate; }
     public void setCategory(String category) { this.category = category; }
     public void setTargetAmount(double targetAmount) { this.targetAmount = targetAmount; }
 
