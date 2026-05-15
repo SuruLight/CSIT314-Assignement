@@ -22,6 +22,10 @@ public class FRA {
     private String status;
     private LocalDate completedDate;
 
+    private String donorList;
+    private String donationAmounts;
+    private String donationDates;
+
     public FRA() {}
 
     public int getFraId() {return fraId;}
@@ -31,10 +35,16 @@ public class FRA {
     public String getCategory() {return category;}
     public String getStatus() {return status;}
     public LocalDate getCompletedDate() {return completedDate;}
+    public String getDonorList() {return donorList;}
+    public String getDonationAmounts() {return donationAmounts;}
+    public String getDonationDates() {return donationDates;}
 
     public void setCategory(String category) {this.category = category;}
     public void setStatus(String status) {this.status = status;}
     public void setCompletedDate(LocalDate completedDate) {this.completedDate = completedDate;}
+    public void setDonorList(String donorList) {this.donorList = donorList;}
+    public void setDonationAmounts(String donationAmounts) {this.donationAmounts = donationAmounts;}
+    public void setDonationDates(String donationDates) {this.donationDates = donationDates;}
 
     public String getFRAList() {
         return "FRA ID: " + fraId + ", FRA Name: " + fraName + ", Total Views: " + totalViews;
@@ -51,5 +61,13 @@ public class FRA {
             ", Status: " + status +
             ", Completed Date: " + completedDate +
             ", Total Views: " + totalViews;
+    }
+
+    public String getFRADonationHistory() {
+    return "FRA ID: " + fraId +
+           ", FRA Name: " + fraName +
+           ", Donors: " + donorList +
+           ", Donation Amounts: " + donationAmounts +
+           ", Donation Dates: " + donationDates;
     }
 }
