@@ -1,0 +1,324 @@
+
+-- Drop in reverse order of dependency
+DROP TABLE IF EXISTS users;          
+DROP TABLE IF EXISTS useraccounts;   
+DROP TABLE IF EXISTS userprofiles; 
+DROP TABLE IF EXISTS activities;
+DROP TABLE IF EXISTS fra;
+DROP TABLE IF EXISTS listings;
+--DROP TABLE IF EXISTS saved_listings;
+DROP TABLE IF EXISTS fsa_categories;
+DROP TABLE IF EXISTS daily_reports;
+DROP TABLE IF EXISTS weekly_reports;
+DROP TABLE IF EXISTS monthly_reports;
+
+--  Create User Profiles Table
+-- Added 'profile_name' to store the full name of the role
+CREATE TABLE userprofiles (
+    role VARCHAR(50) PRIMARY KEY,
+    profile_name VARCHAR(100), -- 👈 Full name of the role
+    permissions TEXT,
+    description TEXT,
+    suspended BOOLEAN DEFAULT FALSE
+);
+
+-- Create User Accounts Table
+-- Added 'permissions' to store what this specific user can do
+CREATE TABLE useraccounts (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100),
+    role VARCHAR(50) REFERENCES userprofiles(role),
+    permissions TEXT, -- 👈 List of things this specific user can do
+    suspended BOOLEAN DEFAULT FALSE
+);
+
+--  Create Users Table (Passwords)
+CREATE TABLE users (
+    username VARCHAR(50) PRIMARY KEY REFERENCES useraccounts(username),
+    password VARCHAR(255) NOT NULL
+);
+
+-- Create Activities Table
+CREATE TABLE activities (
+    activity_id SERIAL PRIMARY KEY,
+    activity_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    target_amount DECIMAL(15, 2),
+    category VARCHAR(100),
+    status VARCHAR(50),
+    created_date DATE DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE fra (
+    fra_id SERIAL PRIMARY KEY,
+    fra_name VARCHAR(255) NOT NULL,
+    total_views INT DEFAULT 0,
+	shortlist_count INT DEFAULT 0
+);
+
+--  Create Listings Table
+CREATE TABLE listings (
+    listing_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    category VARCHAR(100),
+    target_amount DECIMAL(15, 2),
+    status VARCHAR(50)
+);
+
+-- Create FSA Categories Table
+CREATE TABLE fsa_categories (
+    cat_id SERIAL PRIMARY KEY,
+    cat_name VARCHAR(100) NOT NULL UNIQUE,
+    cat_desc TEXT
+);
+
+-- Create Daily Reports Table
+CREATE TABLE daily_reports (
+    report_id SERIAL PRIMARY KEY,
+    report_date DATE NOT NULL,
+    total_activities INT,
+    total_target_amount DECIMAL(15, 2)
+);
+
+-- Create Weekly Reports Table
+-- Updated Weekly Reports Table
+CREATE TABLE weekly_reports (
+    report_id SERIAL PRIMARY KEY,
+    report_date DATE NOT NULL,    -- This usually matches the start_date
+    start_date DATE NOT NULL,     
+    end_date DATE NOT NULL,       
+    total_activities INT,
+    total_target_amount DECIMAL(15, 2)
+);
+
+-- Create Monthly Reports Table
+CREATE TABLE IF NOT EXISTS monthly_reports (
+    report_id SERIAL PRIMARY KEY,
+    month INT NOT NULL,
+    year INT NOT NULL,
+    total_activities INT,
+    total_target_amount DECIMAL(15, 2)
+);
+
+--  Insert into User Profiles
+-- We now include the profile_name (Full Name)
+INSERT INTO userprofiles (role, profile_name, permissions, description, suspended) 
+VALUES 
+('USER_ADMIN', 'System Administrator', 'ALL_ACCESS', 'Manages the entire system', FALSE),
+('DONEE', 'Charity Recipient', 'RECEIVE_FUNDS', 'Receives fundings', FALSE),
+('PLATFORM_MANAGEMENT', 'Internal Manager', 'MANAGE_SYSTEM', 'Handles platform operations', FALSE),
+('FR', 'Fund Raiser', 'CREATE_CAMPAIGNS', 'Creates and manages campaigns', FALSE);
+
+--  Insert into User Accounts
+-- We now include specific permissions for these users
+INSERT INTO useraccounts (username, email, role, permissions, suspended) 
+VALUES 
+('admin', 'admin@fra.com', 'USER_ADMIN', 'SEARCH_USER,UPDATE_USER,SUSPEND_USER', FALSE),
+('bob', 'bob@fra.com', 'USER_ADMIN', 'SEARCH_USER', FALSE),
+('AAA', 'aaa@donee.com', 'DONEE', 'VIEW_FUNDS', FALSE),
+('CCC', 'ccc@manager.com', 'PLATFORM_MANAGEMENT', 'SEARCH_USER,VIEW_REPORTS', FALSE),
+('DDD', 'ddd@raiser.com', 'FR', 'CREATE_CAMPAIGN', FALSE);
+
+--  Insert into Users (Passwords)
+INSERT INTO users (username, password) 
+VALUES 
+('admin', 'Admin@123'),
+('bob', 'bob1'),
+('AAA', 'AAA'),
+('CCC', 'CCC'),
+('DDD', 'DDD');
+
+-- Bulk Insert (Generate reports based on existing 100 activities)
+INSERT INTO daily_reports (report_date, total_activities, total_target_amount)
+SELECT 
+    created_date, 
+    COUNT(activity_id), 
+    SUM(target_amount)
+FROM activities
+GROUP BY created_date
+ORDER BY created_date DESC
+LIMIT 100;
+
+--  Bulk Insert (100 test users)
+DO $$
+DECLARE
+    i INT;
+    v_role TEXT;
+    v_perm TEXT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        IF i % 4 = 0 THEN 
+            v_role := 'USER_ADMIN';
+            v_perm := 'SEARCH_USER,';
+        ELSIF i % 4 = 1 THEN 
+            v_role := 'DONEE';
+            v_perm := 'VIEW_FUNDS';
+        ELSIF i % 4 = 2 THEN 
+            v_role := 'PLATFORM_MANAGEMENT';
+            v_perm := 'VIEW_REPORTS';
+        ELSE 
+            v_role := 'FR';
+            v_perm := 'CREATE_CAMPAIGN';
+        END IF;
+
+        INSERT INTO useraccounts (username, email, role, permissions, suspended)
+        VALUES (
+            'user_' || i, 
+            'user' || i || '@test.com', 
+            v_role, 
+            v_perm,
+            FALSE
+        );
+
+        INSERT INTO users (username, password)
+        VALUES (
+            'user_' || i, 
+            'password' || i
+        );
+    END LOOP;
+END $$;
+
+-- Bulk Insert (100 test activities)
+DO $$
+DECLARE
+    i INT;
+    v_cat TEXT;
+    v_stat TEXT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        -- Rotate categories
+        IF i % 3 = 0 THEN v_cat := 'Education';
+        ELSIF i % 3 = 1 THEN v_cat := 'Medical';
+        ELSE v_cat := 'Environment';
+        END IF;
+
+        -- Rotate status
+        IF i % 2 = 0 THEN v_stat := 'Active';
+        ELSE v_stat := 'Completed';
+        END IF;
+
+        INSERT INTO activities (activity_name, description, target_amount, category, status, created_date)
+        VALUES (
+            'Campaign ' || i,
+            'Description for campaign number ' || i,
+            (i * 100.50), -- Incremental target amounts
+            v_cat,
+            v_stat,
+            CURRENT_DATE - (i * INTERVAL '1 day') -- Dates spread across the past year
+        );
+    END LOOP;
+END $$;
+
+--  Bulk Insert (100 test FRA entries)
+DO $$
+DECLARE
+    i INT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        INSERT INTO fra (fra_name, total_views, shortlist_count)
+        VALUES (
+            'FRA Campaign ' || i,
+            (i * 12),           -- Simulating views
+            (i * 2)             -- Simulating shortlist counts (e.g., 2 per campaign increment)
+        );
+    END LOOP;
+END $$;
+
+-- Bulk Insert (100 test listings)
+DO $$
+DECLARE
+    i INT;
+    v_cat TEXT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        IF i % 2 = 0 THEN v_cat := 'Community';
+        ELSE v_cat := 'Individual Help';
+        END IF;
+
+        INSERT INTO listings (title, description, category, target_amount, status)
+        VALUES (
+            'Need Help ' || i,
+            'Requesting support for project ' || i,
+            v_cat,
+            (i * 50.00),
+            'Open'
+        );
+    END LOOP;
+END $$;
+
+-- 16. Bulk Insert (100 test categories)
+DO $$
+DECLARE
+    i INT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        INSERT INTO fsa_categories (cat_name, cat_desc)
+        VALUES (
+            'Category ' || i,
+            'Description for category ' || i || ' which manages specific fundraising types.'
+        );
+    END LOOP;
+END $$;
+
+--  Bulk Insert (100 days of reports)
+DO $$
+DECLARE
+    i INT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        INSERT INTO daily_reports (report_date, total_activities, total_target_amount)
+        VALUES (
+            CURRENT_DATE - (i * INTERVAL '1 day'), -- Going back 100 days
+            (10 + (i % 5)),                        -- Simulating a variety of daily activity counts
+            (5000.00 + (i * 150.25))               -- Simulating growing target amounts
+        );
+    END LOOP;
+END $$;
+-- Bulk Insert 100 weeks of reports
+DO $$
+DECLARE
+    i INT;
+    v_start DATE;
+    v_end DATE;
+BEGIN
+    FOR i IN 1..100 LOOP
+        -- Calculate the start of the week (Monday) going back i weeks
+        v_start := (CURRENT_DATE - (i * INTERVAL '7 days'))::DATE;
+        -- Calculate the end of the week (Sunday)
+        v_end := (v_start + INTERVAL '6 days')::DATE;
+
+        INSERT INTO weekly_reports (report_date, start_date, end_date, total_activities, total_target_amount)
+        VALUES (
+            v_start,                -- report_date usually matches start_date
+            v_start,
+            v_end,
+            (50 + (i % 20)),        -- Simulating 50-70 activities per week
+            (25000.00 + (i * 500))  -- Simulating weekly target amounts
+        );
+    END LOOP;
+END $$;
+-- Bulk Insert 100 months of reports
+DO $$
+DECLARE
+    i INT;
+    v_date DATE;
+    v_month INT;
+    v_year INT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        -- Calculate the date for each report (going back i months)
+        v_date := (CURRENT_DATE - (i * INTERVAL '1 month'))::DATE;
+        v_month := EXTRACT(MONTH FROM v_date);
+        v_year := EXTRACT(YEAR FROM v_date);
+
+        INSERT INTO monthly_reports (month, year, total_activities, total_target_amount)
+        VALUES (
+            v_month,
+            v_year,
+            (200 + (i % 50)),            -- Simulating between 200-250 activities
+            (100000.00 + (i * 1250.50))  -- Simulating a target amount that grows over time
+        );
+    END LOOP;
+END $$;
