@@ -22,6 +22,10 @@ public class SavedListing {
 
     public SavedListing() {}
 
+    public int getSavedId() {return savedId;}
+    public int getListingID() {return listingID;}
+    public LocalDateTime getSavedAt() {return savedAt;}
+
     public String checkSavedStatus(int listingID) {
         if (this.listingID == listingID) {
             return "Listing already saved.";
@@ -39,17 +43,5 @@ public class SavedListing {
 
     public String getListingDetails(int listingID) {
         return "Saved Listing ID: " + savedId + ", Listing ID: " + listingID + ", Saved At: " + savedAt;
-    }
-
-    public int getSavedId() {
-        return savedId;
-    }
-
-    public int getListingID() {
-        return listingID;
-    }
-
-    public LocalDateTime getSavedAt() {
-        return savedAt;
     }
 }

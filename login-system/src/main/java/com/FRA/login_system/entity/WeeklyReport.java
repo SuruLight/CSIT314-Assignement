@@ -23,8 +23,13 @@ public class WeeklyReport {
 
     public WeeklyReport() {}
 
-    public WeeklyReport generateWeeklyReport(LocalDate startDate, LocalDate endDate,
-            int totalActivities, double totalTargetAmount) {
+    public int getReportId() { return reportId; }
+    public LocalDate getStartDate() { return startDate; }
+    public LocalDate getEndDate() { return endDate; }
+    public int getTotalActivities() { return totalActivities; }
+    public double getTotalTargetAmount() { return totalTargetAmount; }
+
+    public WeeklyReport generateWeeklyReport(LocalDate startDate, LocalDate endDate, int totalActivities, double totalTargetAmount) {
 
         this.startDate = startDate;
         this.endDate = endDate;
@@ -33,10 +38,4 @@ public class WeeklyReport {
 
         return this;
     }
-
-    public int getReportId() { return reportId; }
-    public LocalDate getStartDate() { return startDate; }
-    public LocalDate getEndDate() { return endDate; }
-    public int getTotalActivities() { return totalActivities; }
-    public double getTotalTargetAmount() { return totalTargetAmount; }
 }

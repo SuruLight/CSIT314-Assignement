@@ -22,22 +22,6 @@ public class Listing {
 
     public Listing() {}
 
-    public String getListingDetails(int listingID) {
-        return "Listing ID: " + this.listingID +
-                ", Title: " + title +
-                ", Description: " + description +
-                ", Category: " + category +
-                ", Target Amount: " + targetAmount +
-                ", Status: " + status;
-    }
-
-    public boolean searchListings(String keyword) {
-    return title.toLowerCase().contains(keyword.toLowerCase())
-        || description.toLowerCase().contains(keyword.toLowerCase())
-        || category.toLowerCase().contains(keyword.toLowerCase())
-        || status.toLowerCase().contains(keyword.toLowerCase());
-}
-
     public int getListingID() { return listingID; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
@@ -50,4 +34,17 @@ public class Listing {
     public void setCategory(String category) { this.category = category; }
     public void setTargetAmount(double targetAmount) { this.targetAmount = targetAmount; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getListingDetails(int listingID) {
+        return "Listing ID: " + this.listingID + ", Title: " + title +
+                ", Description: " + description + ", Category: " + category +
+                ", Target Amount: " + targetAmount + ", Status: " + status;
+    }
+
+    public boolean searchListings(String keyword) {
+    return title.toLowerCase().contains(keyword.toLowerCase())
+        || description.toLowerCase().contains(keyword.toLowerCase())
+        || category.toLowerCase().contains(keyword.toLowerCase())
+        || status.toLowerCase().contains(keyword.toLowerCase());
+    }
 }

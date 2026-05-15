@@ -21,6 +21,12 @@ public class MonthlyReport {
 
     public MonthlyReport() {}
 
+    public int getReportId() { return reportId; }
+    public int getReportMonth() { return month; }
+    public int getReportYear() { return year; }
+    public int getTotalActivities() { return totalActivities; }
+    public double getTotalTargetAmount() { return totalTargetAmount; }
+
     public MonthlyReport generateMonthlyReport(int month, int year, int totalActivities, double totalTargetAmount) {
 
         this.month = month;
@@ -30,10 +36,4 @@ public class MonthlyReport {
 
         return this;
     }
-
-    public int getReportId() { return reportId; }
-    public int getReportMonth() { return month; }
-    public int getReportYear() { return year; }
-    public int getTotalActivities() { return totalActivities; }
-    public double getTotalTargetAmount() { return totalTargetAmount; }
 }
