@@ -19,7 +19,8 @@
 <button onclick="goToDeleteActivity()">Delete Fundraising Activity</button><br><br>
 <button onclick="goToSearchActivity()">Search Fund Raising Activity</button><br><br>
 <button onclick="goToViewFRAList()">All FRA</button> <br><br>
-<button onclick="goToViewFRA()">View Specific FRA</button>
+<button onclick="goToViewFRA()">View Specific FRA</button><br><br>
+<button onclick="goToSearchCompletedFRA()">Completed FRA</button>
 <br><br>
 <br><br>
 
@@ -69,6 +70,11 @@ function goToViewFRAList() {
 // Go to view specific FRA page
 function goToViewFRA() {
     window.location.href = "ViewFRAPage.html";
+}
+
+// Go to search completed FRA page
+function goToSearchCompletedFRA() {
+    window.location.href = "SearchCompletedFRAPage.html";
 }
 
 // Go to logout page
