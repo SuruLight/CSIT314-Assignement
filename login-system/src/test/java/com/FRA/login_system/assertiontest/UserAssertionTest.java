@@ -2,7 +2,7 @@ package com.FRA.login_system.assertiontest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -12,28 +12,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 // Import your entities and repositories
 import com.FRA.login_system.entity.UserAccount;
 import com.FRA.login_system.entity.UserProfile;
-//import com.FRA.login_system.entity.WeeklyReport;
 import com.FRA.login_system.entity.User;
 import com.FRA.login_system.entity.Activity;
-//import com.FRA.login_system.entity.DailyReport;
+import com.FRA.login_system.entity.DailyReport;
+import com.FRA.login_system.entity.WeeklyReport;
 import com.FRA.login_system.entity.FRA;
 import com.FRA.login_system.entity.Listing;
-//import com.FRA.login_system.entity.MonthlyReport;
+import com.FRA.login_system.entity.MonthlyReport;
 import com.FRA.login_system.entity.FSACategory;
 import com.FRA.login_system.repository.UserAccountRepository;
 import com.FRA.login_system.repository.UserProfileRepository;
 import com.FRA.login_system.repository.UserRepository;
 import com.FRA.login_system.repository.ActivityRepository;
-//import com.FRA.login_system.repository.DailyReportRepository;
+import com.FRA.login_system.repository.DailyReportRepository;
+import com.FRA.login_system.repository.WeeklyReportRepository;
+import com.FRA.login_system.repository.MonthlyReportRepository;
 import com.FRA.login_system.repository.FRARepository;
 import com.FRA.login_system.repository.FSACategoryRepository;
 import com.FRA.login_system.repository.ListingRepository;
 
-
-
-//import com.FRA.login_system.service.FSACategoryService.GenerateReportService;
-//import com.FRA.login_system.service.FSACategoryService.GenerateWeeklyReportService;
-//import com.FRA.login_system.service.FSACategoryService.GenerateMonthlyReportService;
+import com.FRA.login_system.service.FSACategoryService.GenerateWeeklyReportService;
+import com.FRA.login_system.service.FSACategoryService.GenerateMonthlyReportService;
 
 
 @SpringBootTest
@@ -60,17 +59,21 @@ public class UserAssertionTest {
     @Autowired
     private FSACategoryRepository catRepo;
 
-    //@Autowired
-    //private DailyReportRepository dailyRepo;
+    @Autowired
+    private DailyReportRepository dailyRepo;
 
-    // @Autowired
-    // private GenerateReportService generateReportService;
+    @Autowired
+    private WeeklyReportRepository weeklyRepo;
 
-    // @Autowired
-    // private GenerateWeeklyReportService generateWeeklyReportService;
+    @Autowired
+    private MonthlyReportRepository monthlyRepo;
 
-    // @Autowired
-    // private GenerateMonthlyReportService generateMonthlyReportService;
+
+    @Autowired
+    private GenerateWeeklyReportService generateWeeklyReportService;
+
+    @Autowired
+    private GenerateMonthlyReportService generateMonthlyReportService;
 
 
     /**
@@ -297,21 +300,89 @@ public void testCategoryLogicAndSearch() {
  * Test 10: Verifies that GenerateReportService calculates 
  * data correctly and saves it to the database.
  */
-// @Test
-// public void testDailyReportPersistence() {
-//     // 1. Arrange
-//     DailyReport report = new DailyReport();
-//     LocalDate testDate = LocalDate.now();
+@Test
+public void testDailyReportPersistence() {
+    // 1. Arrange
+    DailyReport report = new DailyReport();
+    LocalDate testDate = LocalDate.now();
     
-//     // 2. Act
-//     report.generateReport(testDate, 10, 5000.0);
+    // 2. Act
+    report.generateReport(testDate, 10, 5000.0);
     
-//     // SAVE using the report-specific repository
-//     DailyReport savedReport = dailyRepo.save(report);
+    // SAVE using the report-specific repository
+    DailyReport savedReport = dailyRepo.save(report);
     
-//     // 3. Assert
-//     assertNotNull(savedReport.getReportId());
-//     assertEquals(5000.0, savedReport.getTotalTargetAmount());
-// }
- 
+    // 3. Assert
+    assertNotNull(savedReport.getReportId());
+    assertEquals(5000.0, savedReport.getTotalTargetAmount());
+}
+ /**
+ * Test 11: Verifies that GenerateReportService calculates 
+ * data correctly and saves it to the database.
+ */
+@Test
+public void testWeeklyReportPersistence() {
+    // 1. Cleanup
+    activityRepo.deleteAll();
+    weeklyRepo.deleteAll();
+
+    // 2. Arrange: Create activities on different days in the same week
+    LocalDate monday = LocalDate.of(2030, 7, 1);
+    LocalDate wednesday = LocalDate.of(2030, 7, 3);
+    
+    Activity act1 = new Activity();
+    act1.createActivity("Mon Event", "Charity", 1000.0);
+    act1.setCreatedDate(monday);
+    activityRepo.save(act1);
+
+    Activity act2 = new Activity();
+    act2.createActivity("Wed Event", "Education", 2000.0);
+    act2.setCreatedDate(wednesday);
+    activityRepo.save(act2);
+
+    // 3. Act: Generate report for that week
+    WeeklyReport savedReport = generateWeeklyReportService.generateWeeklyReport(monday, monday.plusDays(6));
+
+    // 4. Assert
+    assertNotNull(savedReport, "Weekly report should be generated");
+    assertEquals(2, savedReport.getTotalActivities(), "Should find 2 activities in the week");
+    assertEquals(3000.0, savedReport.getTotalTargetAmount(), "Total should be 1000 + 2000");
+    assertTrue(savedReport.getReportId() > 0, "Should have a database ID");
+}
+
+/**
+ * Test 12: Verifies that Monthly Report correctly aggregates 
+ * activities for a specific month and saves to the DB.
+ */
+@Test
+public void testMonthlyReportPersistence() {
+    // 1. Cleanup
+    activityRepo.deleteAll();
+    monthlyRepo.deleteAll();
+
+    // 2. Arrange: Create activities in July 2030
+    int testMonth = 7;
+    int testYear = 2030;
+
+    Activity act1 = new Activity();
+    act1.createActivity("July Event 1", "Medical", 5000.0);
+    act1.setCreatedDate(LocalDate.of(testYear, testMonth, 10)); // July 10
+    activityRepo.save(act1);
+
+    Activity act2 = new Activity();
+    act2.createActivity("July Event 2", "Education", 3000.0);
+    act2.setCreatedDate(LocalDate.of(testYear, testMonth, 25)); // July 25
+    activityRepo.save(act2);
+
+    // 3. Act: Generate report for July 2030
+    MonthlyReport savedReport = generateMonthlyReportService.generateMonthlyReport(testMonth, testYear);
+
+    // 4. Assert
+    assertNotNull(savedReport, "Monthly report should be generated and saved");
+    assertEquals(testMonth, savedReport.getReportMonth(), "Month should match");
+    assertEquals(testYear, savedReport.getReportYear(), "Year should match");
+    assertEquals(2, savedReport.getTotalActivities(), "Should count 2 activities");
+    assertEquals(8000.0, savedReport.getTotalTargetAmount(), "Total should be 5000 + 3000");
+    assertTrue(savedReport.getReportId() > 0, "Database should have assigned an ID");
+}
 }

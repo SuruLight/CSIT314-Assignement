@@ -22,6 +22,7 @@ public class GenerateMonthlyReportController {
 
     @PostMapping("/monthly")
     public MonthlyReport generateMonthlyReport(@RequestBody Map<String, String> request) {
+        // These lines take whatever the user types in the HTML
         int month = Integer.parseInt(request.get("month"));
         int year = Integer.parseInt(request.get("year"));
 

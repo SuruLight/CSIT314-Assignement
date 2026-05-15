@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.FRA.login_system.entity.Activity;
 import com.FRA.login_system.entity.MonthlyReport;
 import com.FRA.login_system.repository.ActivityRepository;
+import com.FRA.login_system.repository.MonthlyReportRepository;
 
 @Service
 public class GenerateMonthlyReportService {
@@ -15,22 +16,25 @@ public class GenerateMonthlyReportService {
     @Autowired
     private ActivityRepository activityRepository;
 
+    @Autowired
+    private MonthlyReportRepository monthlyReportRepository; // 1. Add this injection
+
     public MonthlyReport generateMonthlyReport(int month, int year) {
+    List<Activity> activities = activityRepository.findByMonthAndYear(month, year);
 
-        List<Activity> activities = activityRepository.findByMonthAndYear(month, year);
+    if (activities == null || activities.isEmpty()) {
+        System.out.println("No activities found for Month: " + month + " Year: " + year);
+        return null;
+    }
 
-        if (activities.isEmpty()) {
-            return null;
-        }
+    // Calculate sum safely
+    double totalAmount = activities.stream()
+            .mapToDouble(Activity::getTargetAmount)
+            .sum();
 
-        double totalTargetAmount = 0;
+    MonthlyReport report = new MonthlyReport();
+    report.generateMonthlyReport(month, year, activities.size(), totalAmount);
 
-        for (Activity activity : activities) {
-            totalTargetAmount += activity.getTargetAmount();
-        }
-
-        MonthlyReport monthlyReport = new MonthlyReport();
-
-        return monthlyReport.generateMonthlyReport(month, year, activities.size(), totalTargetAmount);
+    return monthlyReportRepository.save(report);
     }
 }
