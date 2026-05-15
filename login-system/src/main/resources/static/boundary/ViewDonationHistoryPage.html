@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation History</title>
+</head>
+<body>
+
+<h2>Donation History</h2>
+
+<button onclick="viewDonationHistory()">View Donation History</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Donation ID</th>
+            <th>Donee Name</th>
+            <th>FRA Name</th>
+            <th>Donation Amount</th>
+            <th>Donation Date</th>
+        </tr>
+    </thead>
+    <tbody id="donationTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function viewDonationHistory() {
+    fetch("http://localhost:8080/api/donee/donations/history")
+    .then(response => response.json())
+    .then(donationHistoryInfo => {
+        displayDonationHistory(donationHistoryInfo);
+    });
+}
+
+function displayDonationHistory(donationHistoryInfo) {
+    const table = document.getElementById("donationTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (donationHistoryInfo.length === 0) {
+        message.innerText = "No Donations Recorded.";
+        return;
+    }
+
+    message.innerText = "";
+
+    donationHistoryInfo.forEach(donation => {
+        table.innerHTML += `
+            <tr>
+                <td>${donation.donationId}</td>
+                <td>${donation.doneeName}</td>
+                <td>${donation.fraName}</td>
+                <td>${donation.donationAmount}</td>
+                <td>${donation.donationDate}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "DoneeDashboard.html";
+}
+</script>
+
+</body>
+</html>

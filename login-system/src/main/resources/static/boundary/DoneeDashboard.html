@@ -17,7 +17,9 @@
 <button onclick="goToSearchListings()">Search Listings</button><br><br>
 <button onclick="goToSaveListings()">Save Listing</button><br><br>
 <button onclick="goToViewSavedListings()">View Saved Listings</button><br><br>
-<button onclick="goToSearchSavedListings()">Search Saved Listings</button>
+<button onclick="goToSearchSavedListings()">Search Saved Listings</button><br><br>
+<button onclick="goToDonationHistory()">Donations History</button><br><br>
+<button onclick="goToSearchDonationHistory()">Search Donation History</button>
 <br><br>
 <br><br>
 
@@ -57,6 +59,16 @@ function goToViewSavedListings() {
 // Go to search saved listings page
 function goToSearchSavedListings() {
     window.location.href = "SearchSavedListingsPage.html";
+}
+
+// Go to view donation history page
+function goToDonationHistory() {
+    window.location.href = "ViewDonationHistoryPage.html";
+}
+
+// Go to search donation history page
+function goToSearchDonationHistory() {
+    window.location.href = "SearchDonationHistoryPage.html";
 }
 
 // Go to logout page

@@ -39,6 +39,10 @@ public class FRA {
     public String getDonationAmounts() {return donationAmounts;}
     public String getDonationDates() {return donationDates;}
 
+    public void setFraId(int fraId) {this.fraId = fraId;}
+    public void setFraName(String fraName) {this.fraName = fraName;}
+    public void setTotalViews(int totalViews) {this.totalViews = totalViews;}
+    public void setShortlistCount(int shortlistCount) {this.shortlistCount = shortlistCount;}
     public void setCategory(String category) {this.category = category;}
     public void setStatus(String status) {this.status = status;}
     public void setCompletedDate(LocalDate completedDate) {this.completedDate = completedDate;}
