@@ -22,6 +22,11 @@ public class DailyReport {
 
     public DailyReport() {}
 
+    public int getReportId() {return reportId;}
+    public LocalDate getReportDate() {return reportDate;}
+    public int getTotalActivities() {return totalActivities;}
+    public double getTotalTargetAmount() {return totalTargetAmount;}
+
     public DailyReport generateReport(LocalDate reportDate, int totalActivities, double totalTargetAmount) {
 
         this.reportDate = reportDate;
@@ -29,21 +34,5 @@ public class DailyReport {
         this.totalTargetAmount = totalTargetAmount;
 
         return this;
-    }
-
-    public int getReportId() {
-        return reportId;
-    }
-
-    public LocalDate getReportDate() {
-        return reportDate;
-    }
-
-    public int getTotalActivities() {
-        return totalActivities;
-    }
-
-    public double getTotalTargetAmount() {
-        return totalTargetAmount;
     }
 }

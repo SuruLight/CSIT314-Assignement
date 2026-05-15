@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Completed FRA Donation History</title>
+</head>
+<body>
+
+<h2>View Completed FRA Donation History</h2>
+
+<input type="number" id="fraId" placeholder="Enter FRA ID">
+<button onclick="viewFRADonationHistory()">View Donation History</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function viewFRADonationHistory() {
+    const fraId = document.getElementById("fraId").value;
+
+    fetch("http://localhost:8080/api/fr/fra/completed/donation-history/" + fraId)
+    .then(response => response.text())
+    .then(fraDonationInfo => {
+        displayFRADonationHistory(fraDonationInfo);
+    });
+}
+
+function displayFRADonationHistory(fraDonationInfo) {
+    document.getElementById("result").innerText = fraDonationInfo;
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>

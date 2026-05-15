@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Completed FRA</title>
+</head>
+<body>
+
+<h2>Search Completed FRA</h2>
+
+<input type="text" id="cat" placeholder="Category">
+<br>
+
+<input type="date" id="datePeriod">
+<br>
+
+<button onclick="clickSearchFilter()">Search</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>FRA ID</th>
+            <th>FRA Name</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Completed Date</th>
+            <th>Total Views</th>
+            <th>Shortlist Count</th>
+        </tr>
+    </thead>
+    <tbody id="fraTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function clickSearchFilter() {
+    const cat = document.getElementById("cat").value;
+    const datePeriod = document.getElementById("datePeriod").value;
+
+    fetch("http://localhost:8080/api/fr/fra/completed/search?cat=" + cat + "&datePeriod=" + datePeriod)
+    .then(response => response.json())
+    .then(fraList => {
+        displayFRAList(fraList);
+    });
+}
+
+function displayFRAList(fraList) {
+    const table = document.getElementById("fraTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (fraList.length === 0) {
+        message.innerText = "No Matches Found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    fraList.forEach(fra => {
+        table.innerHTML += `
+            <tr>
+                <td>${fra.fraId}</td>
+                <td>${fra.fraName}</td>
+                <td>${fra.category}</td>
+                <td>${fra.status}</td>
+                <td>${fra.completedDate}</td>
+                <td>${fra.totalViews}</td>
+                <td>${fra.shortlistCount}</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashboard.html";
+}
+</script>
+
+</body>
+</html>

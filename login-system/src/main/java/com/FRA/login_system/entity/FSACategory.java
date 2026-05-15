@@ -19,6 +19,10 @@ public class FSACategory {
 
     public FSACategory() {}
 
+    public int getCatId() {return catId;}
+    public String getCatName() {return catName;}
+    public String getCatDesc() {return catDesc;}
+
     public String createFSACat(String catName, String catDesc) {
         this.catName = catName;
         this.catDesc = catDesc;
@@ -44,17 +48,5 @@ public class FSACategory {
 
     public String searchFSACategory(String keyword) {
         return "Category ID: " + catId + ", Name: " + catName + ", Description: " + catDesc;
-    }
-
-    public int getCatId() {
-        return catId;
-    }
-
-    public String getCatName() {
-        return catName;
-    }
-
-    public String getCatDesc() {
-        return catDesc;
     }
 }

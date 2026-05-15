@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Donation History</title>
+</head>
+<body>
+
+<h2>Search Donation History</h2>
+
+<input type="text" id="cat" placeholder="FRA Category">
+<br>
+
+<input type="date" id="datePeriod">
+<br>
+
+<button onclick="filterDonationHistory()">Filter</button>
+
+<p id="message"></p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>FRA Name</th>
+            <th>Category</th>
+            <th>Amount Donated</th>
+            <th>Target Amount</th>
+            <th>Donation Date</th>
+            <th>Progress %</th>
+        </tr>
+    </thead>
+    <tbody id="donationTable"></tbody>
+</table>
+
+<br>
+<button onclick="goBack()">Back</button>
+
+<script>
+function filterDonationHistory() {
+    const cat = document.getElementById("cat").value;
+    const datePeriod = document.getElementById("datePeriod").value;
+
+    fetch("http://localhost:8080/api/donee/donations/search?cat=" + cat + "&datePeriod=" + datePeriod)
+    .then(response => response.json())
+    .then(progressInfo => {
+        displayFRAProgress(progressInfo);
+    });
+}
+
+function displayFRAProgress(progressInfo) {
+    const table = document.getElementById("donationTable");
+    const message = document.getElementById("message");
+
+    table.innerHTML = "";
+
+    if (progressInfo.length === 0) {
+        message.innerText = "No Matches Found.";
+        return;
+    }
+
+    message.innerText = "";
+
+    progressInfo.forEach(donation => {
+        let progressPercentage = 0;
+
+        if (donation.targetAmount > 0) {
+            progressPercentage =
+                (donation.donationAmount / donation.targetAmount) * 100;
+        }
+
+        table.innerHTML += `
+            <tr>
+                <td>${donation.fraName}</td>
+                <td>${donation.category}</td>
+                <td>${donation.donationAmount}</td>
+                <td>${donation.targetAmount}</td>
+                <td>${donation.donationDate}</td>
+                <td>${progressPercentage.toFixed(2)}%</td>
+            </tr>
+        `;
+    });
+}
+
+function goBack() {
+    window.location.href = "DoneeDashboard.html";
+}
+</script>
+
+</body>
+</html>

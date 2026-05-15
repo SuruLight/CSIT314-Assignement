@@ -30,6 +30,7 @@ function viewAllFRA() {
     fetch("http://localhost:8080/api/fr/fra/all")
     .then(response => response.json())
     .then(FRAList => {
+        console.log(FRAList);
         displayFRAList(FRAList);
     });
 }
@@ -57,9 +58,8 @@ function displayFRAList(FRAList) {
         `;
     });
 }
-
 function goBack() {
-    window.location.href = "FundRaiserDashboard.html";
+    window.location.href = "FundRaiserDashBoard.html";
 }
 </script>
 

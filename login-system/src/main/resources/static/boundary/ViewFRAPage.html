@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View FRA</title>
+</head>
+<body>
+
+<h2>View Specific FRA</h2>
+
+<input type="number" id="fraId" placeholder="Enter FRA ID">
+<button onclick="viewFRA()">View FRA</button>
+
+<p id="result"></p>
+
+<button onclick="goBack()">Back</button>
+
+<script>
+function viewFRA() {
+    const fraId = document.getElementById("fraId").value;
+
+    fetch("http://localhost:8080/api/fr/fra/details/" + fraId)
+    .then(response => response.text())
+    .then(fraInfo => {
+        displayFRAInfo(fraInfo);
+    });
+}
+
+function displayFRAInfo(fraInfo) {
+    document.getElementById("result").innerText = fraInfo;
+}
+
+function goBack() {
+    window.location.href = "FundRaiserDashBoard.html";
+}
+</script>
+
+</body>
+</html>
