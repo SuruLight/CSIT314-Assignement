@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS fsa_categories;
 DROP TABLE IF EXISTS daily_reports;
 DROP TABLE IF EXISTS weekly_reports;
 DROP TABLE IF EXISTS monthly_reports;
+DROP TABLE IF EXISTS donations;
 
 --  Create User Profiles Table
 -- Added 'profile_name' to store the full name of the role
@@ -54,7 +55,13 @@ CREATE TABLE fra (
     fra_id SERIAL PRIMARY KEY,
     fra_name VARCHAR(255) NOT NULL,
     total_views INT DEFAULT 0,
-	shortlist_count INT DEFAULT 0
+    shortlist_count INT DEFAULT 0,
+    category VARCHAR(100),
+    status VARCHAR(50),
+    completed_date DATE DEFAULT CURRENT_DATE,
+    donor_list TEXT,
+    donation_amounts TEXT,
+    donation_dates TEXT
 );
 
 --  Create Listings Table
@@ -100,6 +107,17 @@ CREATE TABLE IF NOT EXISTS monthly_reports (
     year INT NOT NULL,
     total_activities INT,
     total_target_amount DECIMAL(15, 2)
+);
+
+-- Build the structural schema matching Donation.java exactly
+CREATE TABLE donations (
+    donation_id SERIAL PRIMARY KEY,
+    donee_name VARCHAR(255),
+    fra_name VARCHAR(255),
+    donation_amount DECIMAL(15, 2),
+    donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    category VARCHAR(100),
+    target_amount DECIMAL(15, 2)
 );
 
 --  Insert into User Profiles
@@ -215,13 +233,35 @@ END $$;
 DO $$
 DECLARE
     i INT;
+    v_cat TEXT;
+    v_stat TEXT;
 BEGIN
     FOR i IN 1..100 LOOP
-        INSERT INTO fra (fra_name, total_views, shortlist_count)
+        -- Alternate categories to match search queries
+        IF i % 3 = 0 THEN v_cat := 'Education';
+        ELSIF i % 3 = 1 THEN v_cat := 'Medical';
+        ELSE v_cat := 'Environment';
+        END IF;
+
+        -- Alternate status values
+        IF i % 2 = 0 THEN v_stat := 'Active';
+        ELSE v_stat := 'Completed';
+        END IF;
+
+        INSERT INTO fra (
+            fra_name, total_views, shortlist_count, category, status, 
+            completed_date, donor_list, donation_amounts, donation_dates
+        )
         VALUES (
             'FRA Campaign ' || i,
-            (i * 12),           -- Simulating views
-            (i * 2)             -- Simulating shortlist counts (e.g., 2 per campaign increment)
+            (i * 12),              -- Simulating view counts
+            (i * 2),               -- Simulating shortlists
+            v_cat,                 -- Mapped category field
+            v_stat,                -- Mapped status string
+            CURRENT_DATE - (i * INTERVAL '1 day'), -- Sequential completion timelines
+            'Donor_A, Donor_B, Donor_C', -- Sample CSV tracking collections
+            '50.00, 150.00, 200.00',
+            '2026-05-01, 2026-05-05, 2026-05-10'
         );
     END LOOP;
 END $$;
@@ -252,13 +292,27 @@ END $$;
 DO $$
 DECLARE
     i INT;
+    v_cat_name TEXT;
+    v_cat_desc TEXT;
 BEGIN
     FOR i IN 1..100 LOOP
+        -- Rotate through the 4 core categories based on the remainder of i divided by 4
+        IF i % 4 = 1 THEN 
+            v_cat_name := 'Medical ' || i;
+            v_cat_desc := 'Healthcare initiatives, hospital bills coverage, and medical supplies management group ' || i || '.';
+        ELSIF i % 4 = 2 THEN 
+            v_cat_name := 'Education ' || i;
+            v_cat_desc := 'School sponsorships, supplies distribution, and tuition assistance group ' || i || '.';
+        ELSIF i % 4 = 3 THEN 
+            v_cat_name := 'Environment ' || i;
+            v_cat_desc := 'Nature reserves preservation, cleanup drives, and wildlife protection group ' || i || '.';
+        ELSE 
+            v_cat_name := 'Charity ' || i;
+            v_cat_desc := 'General public community grants, volunteer support, and social welfare relief group ' || i || '.';
+        END IF;
+
         INSERT INTO fsa_categories (cat_name, cat_desc)
-        VALUES (
-            'Category ' || i,
-            'Description for category ' || i || ' which manages specific fundraising types.'
-        );
+        VALUES (v_cat_name, v_cat_desc);
     END LOOP;
 END $$;
 
@@ -319,6 +373,31 @@ BEGIN
             v_year,
             (200 + (i % 50)),            -- Simulating between 200-250 activities
             (100000.00 + (i * 1250.50))  -- Simulating a target amount that grows over time
+        );
+    END LOOP;
+END $$;
+
+-- Bulk Insert 100 dedicated mock data points for the donations table
+DO $$
+DECLARE
+    i INT;
+    v_cat TEXT;
+BEGIN
+    FOR i IN 1..100 LOOP
+        -- Rotate through categories cleanly
+        IF i % 3 = 0 THEN v_cat := 'Education';
+        ELSIF i % 3 = 1 THEN v_cat := 'Medical';
+        ELSE v_cat := 'Environment';
+        END IF;
+
+        INSERT INTO donations (donee_name, fra_name, donation_amount, donation_date, category, target_amount)
+        VALUES (
+            'Donee_User_' || i,
+            'FRA Campaign ' || i,
+            (i * 15.50), -- Generates diverse mock donation amounts ($15.50 to $1550.00)
+            CURRENT_TIMESTAMP - (i * INTERVAL '2 hours'), -- Distributes dates sequentially backwards
+            v_cat,
+            (i * 150.00) -- Sets up an tracking boundary metrics for calculation logic checks
         );
     END LOOP;
 END $$;
