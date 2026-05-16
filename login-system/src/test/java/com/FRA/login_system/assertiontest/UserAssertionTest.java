@@ -322,10 +322,7 @@ public void testDailyReportPersistence() {
  */
 @Test
 public void testWeeklyReportPersistence() {
-    // 1. Cleanup
-    activityRepo.deleteAll();
-    weeklyRepo.deleteAll();
-
+ 
     // 2. Arrange: Create activities on different days in the same week
     LocalDate monday = LocalDate.of(2030, 7, 1);
     LocalDate wednesday = LocalDate.of(2030, 7, 3);
@@ -356,10 +353,8 @@ public void testWeeklyReportPersistence() {
  */
 @Test
 public void testMonthlyReportPersistence() {
-    // 1. Cleanup
-    activityRepo.deleteAll();
-    monthlyRepo.deleteAll();
-
+   
+   
     // 2. Arrange: Create activities in July 2030
     int testMonth = 7;
     int testYear = 2030;
