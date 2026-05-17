@@ -14,8 +14,24 @@ public class SearchActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
-    public List<Activity> searchActivity(String activityName, String category,String status) {
-        return activityRepository.findByActivityNameContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrStatusContainingIgnoreCase(
+    public List<Activity> searchActivity(
+            String activityName,
+            String category,
+            String status) {
+
+        if (activityName == null) {
+            activityName = "";
+        }
+
+        if (category == null) {
+            category = "";
+        }
+
+        if (status == null) {
+            status = "";
+        }
+
+        return activityRepository.searchActivity(
             activityName,
             category,
             status

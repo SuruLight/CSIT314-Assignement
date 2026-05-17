@@ -10,10 +10,16 @@ import org.springframework.data.repository.query.Param;
 import com.FRA.login_system.entity.Activity;
 
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
-    List<Activity> findByActivityNameContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrStatusContainingIgnoreCase(
-        String activityName,
-        String category,
-        String status
+    @Query("""
+        SELECT a FROM Activity a
+        WHERE (:activityName = '' OR LOWER(a.activityName) LIKE LOWER(CONCAT('%', :activityName, '%')))
+        AND (:category = '' OR LOWER(a.category) LIKE LOWER(CONCAT('%', :category, '%')))
+        AND (:status = '' OR LOWER(a.status) LIKE LOWER(CONCAT('%', :status, '%')))
+    """)
+    List<Activity> searchActivity(
+        @Param("activityName") String activityName,
+        @Param("category") String category,
+        @Param("status") String status
     );
 
     // For generating daily report
